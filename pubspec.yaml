@@ -1,0 +1,82 @@
+name: medapp 
+description: A new Flutter project.
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.5 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_rating_bar: ^4.0.1
+  percent_indicator: ^4.2.2
+  shared_preferences: ^2.0.15
+  flutter_staggered_grid_view: ^0.7.0
+  flutter_bloc: ^8.1.1
+  equatable: ^2.0.5
+  image_picker: ^1.0.7
+  easy_localization: ^3.0.1
+
+
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.5
+  firebase_core: ^2.29.0
+  firebase_auth: ^4.19.1 
+  firebase_database: ^10.5.0
+  firebase_app_check: ^0.2.2
+  firebase_in_app_messaging: ^0.7.5
+  firebase_analytics: ^10.10.0
+  cloud_firestore: ^4.16.1
+  firebase_storage: ^11.7.1
+  firebase_messaging: ^14.8.1
+  google_sign_in: ^6.2.1
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+
+
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+flutter_icons:
+  image_path: 'assets/images/launcher_ic.png'
+  android: true
+  ios: true
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+   - assets/images/
+   - assets/images/1.5x/
+   - assets/images/2.0x/
+   - assets/images/3.0x/
+   - assets/images/4.0x/
+   - assets/languages/
+
+  fonts:
+    - family: NunitoSans
+      fonts:
+        - asset: assets/fonts/NunitoSans-Light.ttf
+          weight: 300
+        - asset: assets/fonts/NunitoSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/NunitoSans-SemiBold.ttf
+          weight: 500
+        - asset: assets/fonts/NunitoSans-Bold.ttf
+          weight: 700
+    - family: CustomIcons
+      fonts:
+        - asset: assets/fonts/CustomIcons.ttf
