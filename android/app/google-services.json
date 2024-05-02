@@ -1,33 +1,13 @@
 {
   "project_info": {
-    "project_number": "546772850624",
-    "firebase_url": "https://hospital-management-33209-default-rtdb.europe-west1.firebasedatabase.app",
-    "project_id": "hospital-management-33209",
-    "storage_bucket": "hospital-management-33209.appspot.com"
+    "project_number": "291249992911",
+    "project_id": "nk-medical-e4ea5",
+    "storage_bucket": "nk-medical-e4ea5.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:546772850624:android:1be3bb0b2d661b0b129a25",
-        "android_client_info": {
-          "package_name": "com.android.application"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBxvUNb7_iROpksQk9s-fQR91cBa1Mi6jA"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:546772850624:android:f75611ec9cc46193129a25",
+        "mobilesdk_app_id": "1:291249992911:android:dc7c1f5be73190edfdf3ba",
         "android_client_info": {
           "package_name": "com.thenonee.medapp"
         }
@@ -35,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBxvUNb7_iROpksQk9s-fQR91cBa1Mi6jA"
+          "current_key": "AIzaSyCoVhwaSkAjG5bbBeBWAO1HK0D_dMe3uWU"
         }
       ],
       "services": {

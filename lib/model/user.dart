@@ -1,11 +1,10 @@
 import 'dart:convert';
 
 class User {
-  String? id;
+  final String id;
   String? firstName;
   String? lastName;
   String? email;
-  String? password;
   int? gender;
   String? phone;
   String? birthDate;
@@ -18,11 +17,10 @@ class User {
   String? location;
 
   User({
-    this.id,
+    required this.id,
     this.firstName,
     this.lastName,
     this.email,
-    this.password,
     this.gender,
     this.phone,
     this.birthDate,
@@ -41,7 +39,6 @@ class User {
       'firstName': firstName,
       'lastName': lastName,
       'email': email,
-      'password': password,
       'gender': gender,
       'phone': phone,
       'birthDate': birthDate,
@@ -55,29 +52,30 @@ class User {
     };
   }
 
-  factory User.fromMap(Map<String, dynamic>? map) {
-    if (map == null) return User();
+  factory User.fromMap(Map<String, dynamic>? map, String id) {
+    if (map == null) {
+      throw ArgumentError("Null map passed to User.fromMap");
+    }
 
     return User(
-      id: map['id'],
-      firstName: map['firstName'],
-      lastName: map['lastName'],
-      email: map['email'],
-      password: map['password'],
-      gender: map['gender'],
-      phone: map['phone'],
-      birthDate: map['birthDate'],
-      bloodGroup: map['bloodGroup'],
-      maritalStatus: map['maritalStatus'],
-      height: map['height'],
-      weight: map['weight'],
-      emeregencyContact: map['emeregencyContact'],
-      avatar: map['avatar'],
-      location: map['location'],
+      id: id,
+      firstName: map['firstName'] ?? '',
+      lastName: map['lastName'] ?? '',
+      email: map['email'] ?? '',
+      gender: map['gender'] ?? 0,
+      phone: map['phone'] ?? '',
+      birthDate: map['birthDate'] ?? '',
+      bloodGroup: map['bloodGroup'] ?? '',
+      maritalStatus: map['maritalStatus'] ?? '',
+      height: map['height']?.toDouble() ?? 0.0,
+      weight: map['weight']?.toDouble() ?? 0.0,
+      emeregencyContact: map['emeregencyContact'] ?? '',
+      avatar: map['avatar'] ?? '',
+      location: map['location'] ?? '',
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory User.fromJson(String source) => User.fromMap(json.decode(source));
+  factory User.fromJson(String source) => User.fromMap(json.decode(source), '');
 }

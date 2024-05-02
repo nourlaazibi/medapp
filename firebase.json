@@ -1,17 +1,1 @@
-{
-  "database": {
-    "rules": "database.rules.json"
-  },
-  "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
-  },
-  "hosting": {
-    "public": "public",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ]
-  }
-}
+{"database":{"rules":"database.rules.json"},"firestore":{"rules":"firestore.rules","indexes":"firestore.indexes.json"},"hosting":{"public":"public","ignore":["firebase.json","**/.*","**/node_modules/**"]},"flutter":{"platforms":{"android":{"default":{"projectId":"nk-medical-e4ea5","appId":"1:291249992911:android:dc7c1f5be73190edfdf3ba","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"nk-medical-e4ea5","configurations":{"android":"1:291249992911:android:dc7c1f5be73190edfdf3ba","ios":"1:291249992911:ios:78c6d5fd4e476f9ffdf3ba","web":"1:291249992911:web:1a1fb6b4596a5ff0fdf3ba"}}}}}}

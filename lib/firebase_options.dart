@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -50,21 +47,29 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBxvUNb7_iROpksQk9s-fQR91cBa1Mi6jA',
-    appId: '1:546772850624:android:f75611ec9cc46193129a25',
-    messagingSenderId: '546772850624',
-    projectId: 'hospital-management-33209',
-    databaseURL: 'https://hospital-management-33209-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'hospital-management-33209.appspot.com',
+    apiKey: 'AIzaSyCoVhwaSkAjG5bbBeBWAO1HK0D_dMe3uWU',
+    appId: '1:291249992911:android:dc7c1f5be73190edfdf3ba',
+    messagingSenderId: '291249992911',
+    projectId: 'nk-medical-e4ea5',
+    storageBucket: 'nk-medical-e4ea5.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBLsBJD_TLo_1s_PllS0rcsQ3MHIN3OsCM',
-    appId: '1:546772850624:ios:c5e92977d3497ae1129a25',
-    messagingSenderId: '546772850624',
-    projectId: 'hospital-management-33209',
-    databaseURL: 'https://hospital-management-33209-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'hospital-management-33209.appspot.com',
+    apiKey: 'AIzaSyBgQ8SY2g9XJtmaXwWljKC22OK1jQ-I8Xc',
+    appId: '1:291249992911:ios:78c6d5fd4e476f9ffdf3ba',
+    messagingSenderId: '291249992911',
+    projectId: 'nk-medical-e4ea5',
+    storageBucket: 'nk-medical-e4ea5.appspot.com',
     iosBundleId: 'com.thenone.medapp',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCaLEtS8zY41MbeUxOlnDFTfgrL0O92AV4',
+    appId: '1:291249992911:web:1a1fb6b4596a5ff0fdf3ba',
+    messagingSenderId: '291249992911',
+    projectId: 'nk-medical-e4ea5',
+    authDomain: 'nk-medical-e4ea5.firebaseapp.com',
+    storageBucket: 'nk-medical-e4ea5.appspot.com',
+  );
+
 }
