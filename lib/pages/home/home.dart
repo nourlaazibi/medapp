@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:medapp/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../components/custom_navigation_bar.dart';
 import '../../data/pref_manager.dart';
@@ -50,9 +52,10 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = Provider.of<CurrentUserProvider>(context);
     final size = MediaQuery.of(context).size;
     final _pages = [
-      HomePage(),
+      HomePage(currentUser: currentUser.currentUser!),
       ProfilePage(),
       Container(),
       MessagesPage(),
@@ -71,6 +74,7 @@ class _HomeState extends State<Home> {
               },
             );
           },
+          userModel: currentUser.currentUser!,
         ),
         AnimatedContainer(
           transform: Matrix4.translationValues(xOffset, yOffset, 0)

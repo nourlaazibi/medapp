@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:medapp/services/auth/user_auth.dart';
 
 class AccountWidget extends StatelessWidget {
   final Color color;
@@ -39,7 +40,9 @@ class AccountWidget extends StatelessWidget {
             Icons.exit_to_app,
             color: Colors.blue,
           ),
-          onTap: () {},
+          onTap: () {
+            UserAuth().signOut(context);
+          },
         ),
       ],
     );

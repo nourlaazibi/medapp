@@ -1,7 +1,8 @@
 class Routes {
-  static const String splash = '/';
+  static const String wrapper = '/';
   static const String login = '/login';
   static const String signup = '/signup';
+  static const String splash = '/splash';
   static const String forgotPassword = '/forgot_password';
   static const String home = '/home';
   static const String filter = '/filter';

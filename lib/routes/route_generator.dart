@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:medapp/wrapper.dart';
 
 import '../pages/appointment/appointment_detail_page.dart';
 import '../pages/appointment/my_appointments_page.dart';
@@ -30,8 +31,8 @@ class RouteGenerator {
     //final args = settings.arguments;
 
     switch (settings.name) {
-      case Routes.splash:
-        return CupertinoPageRoute(builder: (_) => SplashPage());
+      case Routes.wrapper:
+        return CupertinoPageRoute(builder: (_) => Wrapper());
 
       case Routes.login:
         return CupertinoPageRoute(builder: (_) => LoginPage());
@@ -95,6 +96,8 @@ class RouteGenerator {
 
       case Routes.myDoctors:
         return CupertinoPageRoute(builder: (_) => MyDoctorListPage());
+      case Routes.splash:
+        return CupertinoPageRoute(builder: (_) => SplashPage());
 
       case Routes.myAppointments:
         return CupertinoPageRoute(builder: (_) => MyAppointmentsPage());

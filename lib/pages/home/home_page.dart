@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:medapp/model/user.dart';
 
 import '../../components/visited_doctor_list_item.dart';
 import '../../model/doctor.dart';
@@ -7,6 +8,8 @@ import '../../routes/routes.dart';
 import 'widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
+  UserModel currentUser;
+  HomePage({required this.currentUser});
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -36,7 +39,7 @@ class _HomePageState extends State<HomePage>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        '${'hello'.tr()} Tawfiq,',
+                        '${'hello'.tr()} ${widget.currentUser.firstName},',
                         style: Theme.of(context).textTheme.headline6!.copyWith(
                               fontWeight: FontWeight.w400,
                             ),

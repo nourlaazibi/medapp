@@ -1,10 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:medapp/components/custom_button.dart';
 
 import '../../../components/labeled_text_form_field.dart';
 import '../../../routes/routes.dart';
 
 class InputWidget extends StatefulWidget {
+  final Function(String, String) onSubmit;
+  InputWidget({required this.onSubmit});
   @override
   _InputWidgetState createState() => _InputWidgetState();
 }
@@ -47,6 +50,12 @@ class _InputWidgetState extends State<InputWidget> {
               ),
             ),
           ],
+        ),
+        CustomButton(
+          onPressed: () {
+            widget.onSubmit(_emailController.text, _passwordController.text);
+          },
+          text: 'login'.tr(),
         ),
       ],
     );

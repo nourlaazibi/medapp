@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:medapp/components/custom_button.dart';
 
 import '../../../components/labeled_text_form_field.dart'; // Assurez-vous d'importer votre composant personnalisé
 import '../../../utils/constants.dart';
@@ -7,6 +8,8 @@ import '../../../utils/constants.dart';
 enum Gender { male, female }
 
 class InputWidget extends StatefulWidget {
+  final Function(String, String, Gender, String, String,String,String) onSubmit;
+  InputWidget({required this.onSubmit});
   @override
   _InputWidgetState createState() => _InputWidgetState();
 }
@@ -16,11 +19,10 @@ class _InputWidgetState extends State<InputWidget> {
   final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
-  final _weightController = TextEditingController(); // Nouveau contrôleur pour le poids
-  final _heightController = TextEditingController(); // Nouveau contrôleur pour la taille
+  final _weightController = TextEditingController();
+  final _heightController = TextEditingController();
 
-  Gender _gender = Gender.male;
+  Gender _gender = Gender.female;
 
   @override
   Widget build(BuildContext context) {
@@ -103,22 +105,36 @@ class _InputWidgetState extends State<InputWidget> {
                 hintText: '* * * * * *',
               ),
               LabeledTextFormField(
-                title: 'confirm_password_dot'.tr(),
-                controller: _confirmPasswordController,
-                obscureText: true,
-                hintText: '* * * * * *',
+                title: 'weight_dot'.tr(),
+                controller: _weightController,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                hintText: '70',
               ),
               LabeledTextFormField(
-                title: 'weight_dot'.tr(), // Titre pour le champ de poids
-                controller: _weightController, // Utilise le contrôleur de poids
-                keyboardType: TextInputType.numberWithOptions(decimal: true), // Permet uniquement les chiffres
-                hintText: '70', // Exemple de poids
+                title: 'height_dot'.tr(),
+                controller: _heightController,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                hintText: '175',
               ),
-              LabeledTextFormField(
-                title: 'height_dot'.tr(), // Titre pour le champ de taille
-                controller: _heightController, // Utilise le contrôleur de taille
-                keyboardType: TextInputType.numberWithOptions(decimal: true), // Permet uniquement les chiffres
-                hintText: '175', // Exemple de taille
+              SizedBox(
+                height: 35,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 38),
+                child: CustomButton(
+                  onPressed: () {
+                    widget.onSubmit(
+                      _firstNameController.text,
+                      _lastNameController.text,
+                      _gender,
+                      _emailController.text,
+                      _passwordController.text,
+                      _weightController.text,
+                      _heightController.text
+                    );
+                  },
+                  text: 'sign_up'.tr(),
+                ),
               ),
             ],
           ),

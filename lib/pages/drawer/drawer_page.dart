@@ -1,13 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:medapp/model/user.dart';
 
 import '../../routes/routes.dart';
 import '../../utils/constants.dart';
 
 class DrawerPage extends StatelessWidget {
   final void Function() onTap;
-
-  const DrawerPage({Key? key, required this.onTap}) : super(key: key);
+  UserModel userModel;
+  DrawerPage({Key? key, required this.onTap, required this.userModel})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -40,7 +42,7 @@ class DrawerPage extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           Text(
-                            'Tawfiq Bahri',
+                            '${userModel.firstName} ${userModel.lastName}',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
