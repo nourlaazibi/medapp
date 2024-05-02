@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:291249992911:android:d1630a074f367f77fdf3ba",
+        "android_client_info": {
+          "package_name": "com.example.medapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoVhwaSkAjG5bbBeBWAO1HK0D_dMe3uWU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:291249992911:android:dc7c1f5be73190edfdf3ba",
         "android_client_info": {
           "package_name": "com.thenonee.medapp"

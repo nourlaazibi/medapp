@@ -48,7 +48,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCoVhwaSkAjG5bbBeBWAO1HK0D_dMe3uWU',
-    appId: '1:291249992911:android:dc7c1f5be73190edfdf3ba',
+    appId: '1:291249992911:android:d1630a074f367f77fdf3ba',
     messagingSenderId: '291249992911',
     projectId: 'nk-medical-e4ea5',
     storageBucket: 'nk-medical-e4ea5.appspot.com',
