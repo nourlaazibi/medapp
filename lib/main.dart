@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:medapp/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'routes/route_generator.dart';
 import 'routes/routes.dart';
@@ -12,12 +14,9 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
- await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
-);
-
-
-
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   await EasyLocalization.ensureInitialized();
   runApp(
@@ -36,14 +35,19 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ThemeBloc(),
-      child: BlocBuilder<ThemeBloc, ThemeState>(
-        builder: _buildWithTheme,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => CurrentUserProvider(),
+        )
+      ],
+      child: BlocProvider(
+        create: (context) => ThemeBloc(),
+        child: BlocBuilder<ThemeBloc, ThemeState>(
+          builder: _buildWithTheme,
+        ),
       ),
     );
   }
@@ -76,7 +80,8 @@ class MyApp extends StatelessWidget {
 
 class MyBehavior extends ScrollBehavior {
   // Ensure that this method signature matches the superclass method signature
-  Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) {
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
     return child;
   }
 }

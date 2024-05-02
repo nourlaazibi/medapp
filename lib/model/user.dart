@@ -1,33 +1,33 @@
 import 'dart:convert';
 
-class User {
+class UserModel {
   final String id;
-  String? firstName;
-  String? lastName;
-  String? email;
-  int? gender;
+  String firstName;
+  String lastName;
+  String email;
+  int gender;
+  double height;
+  double weight;
   String? phone;
   String? birthDate;
   String? bloodGroup;
   String? maritalStatus;
-  double? height;
-  double? weight;
   String? emeregencyContact;
   String? avatar;
   String? location;
 
-  User({
+  UserModel({
     required this.id,
-    this.firstName,
-    this.lastName,
-    this.email,
-    this.gender,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.gender,
     this.phone,
     this.birthDate,
     this.bloodGroup,
     this.maritalStatus,
-    this.height,
-    this.weight,
+    required this.height,
+    required this.weight,
     this.emeregencyContact,
     this.avatar,
     this.location,
@@ -52,12 +52,12 @@ class User {
     };
   }
 
-  factory User.fromMap(Map<String, dynamic>? map, String id) {
+  factory UserModel.fromMap(Map<String, dynamic>? map, String id) {
     if (map == null) {
-      throw ArgumentError("Null map passed to User.fromMap");
+      throw ArgumentError("Null map passed to UserModel.fromMap");
     }
 
-    return User(
+    return UserModel(
       id: id,
       firstName: map['firstName'] ?? '',
       lastName: map['lastName'] ?? '',
@@ -77,5 +77,5 @@ class User {
 
   String toJson() => json.encode(toMap());
 
-  factory User.fromJson(String source) => User.fromMap(json.decode(source), '');
+  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source), '');
 }
