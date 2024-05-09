@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../components/custom_button.dart';
 import '../../components/text_form_field.dart';
@@ -94,12 +96,28 @@ class _WidgetForgotState extends State<WidgetForgot> {
         CustomTextFormField(
           controller: _emailController,
           hintText: 'bhr.tawfik@gmail.com',
+          validator: (value) =>
+              value!.isEmpty || value.contains("@") ? "Invalid Email" : "",
         ),
         SizedBox(
           height: 35,
         ),
         CustomButton(
-          onPressed: () {},
+          onPressed: () async {
+            if (_emailController.text.isNotEmpty &&
+                _emailController.text.contains("@")) {
+              await FirebaseAuth.instance
+                  .sendPasswordResetEmail(email: _emailController.text);
+            }
+            Fluttertoast.showToast(
+                msg: "Password reset email sent ",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.black,
+                textColor: Colors.white,
+                fontSize: 16.0);
+          },
           text: 'reset_password'.tr(),
         )
       ],

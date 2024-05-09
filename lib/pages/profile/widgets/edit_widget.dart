@@ -32,9 +32,9 @@ class _EditWidgetState extends State<EditWidget> {
   final TextEditingController _contactNumberController =
       TextEditingController();
   final TextEditingController _heightController = TextEditingController();
-  final TextEditingController _birthController = TextEditingController();
+
   final TextEditingController _weightController = TextEditingController();
-  final TextEditingController _bloodController = TextEditingController();
+
   var _selectedGender = 'male'.tr();
 
   var _selectedBloodGroup = 'O+';
@@ -101,6 +101,22 @@ class _EditWidgetState extends State<EditWidget> {
     if (widget.userModel.phone != null) {
       _contactNumberController.text = widget.userModel.phone!;
     }
+    if (widget.userModel.weight != null) {
+      _weightController.text = widget.userModel.weight!.toString();
+    }
+    if (widget.userModel.height != null) {
+      _heightController.text = widget.userModel.height!.toString();
+    }
+    if (widget.userModel.birthDate != null) {
+      _birthDate = widget.userModel.birthDate!;
+    }
+    if (widget.userModel.bloodGroup != null) {
+      _selectedBloodGroup = widget.userModel.bloodGroup!;
+    }
+    if (widget.userModel.maritalStatus != null) {
+      _selectedMarital = widget.userModel.maritalStatus!;
+    }
+    _selectedGender = _genderItems[(widget.userModel.gender)];
   }
 
   bool loading = false;
@@ -181,6 +197,7 @@ class _EditWidgetState extends State<EditWidget> {
               style: kInputTextStyle,
             ),
             CustomTextFormField(
+              controller: _contactNumberController,
               keyboardType: TextInputType.phone,
               hintText: '22012012',
             ),
@@ -216,7 +233,9 @@ class _EditWidgetState extends State<EditWidget> {
             ),
             ListTile(
               contentPadding: EdgeInsets.all(0),
-              title: Text(_birthDate),
+              title: Text(widget.userModel.birthDate != null
+                  ? widget.userModel.birthDate!
+                  : _birthDate),
               onTap: () {
                 showDatePicker(
                   context: context,
@@ -302,6 +321,7 @@ class _EditWidgetState extends State<EditWidget> {
                     firstName: _firstNameController.text,
                     lastName: _lastNameController.text,
                     email: widget.userModel.email,
+                    phone: _contactNumberController.text,
                     gender: _genderItems.indexOf(_selectedGender),
                     height: double.tryParse(_heightController.text),
                     weight: double.tryParse(_weightController.text),
