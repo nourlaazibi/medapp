@@ -5,9 +5,10 @@ class UserModel {
   String firstName;
   String lastName;
   String email;
+  String? profilePicture;
   int gender;
-  double height;
-  double weight;
+  double? height;
+  double? weight;
   String? phone;
   String? birthDate;
   String? bloodGroup;
@@ -26,11 +27,12 @@ class UserModel {
     this.birthDate,
     this.bloodGroup,
     this.maritalStatus,
-    required this.height,
-    required this.weight,
+    this.height,
+    this.weight,
     this.emeregencyContact,
     this.avatar,
     this.location,
+    this.profilePicture
   });
 
   Map<String, dynamic> toMap() {
@@ -49,6 +51,7 @@ class UserModel {
       'emeregencyContact': emeregencyContact,
       'avatar': avatar,
       'location': location,
+      'profilePicture':profilePicture
     };
   }
 
@@ -72,10 +75,12 @@ class UserModel {
       emeregencyContact: map['emeregencyContact'] ?? '',
       avatar: map['avatar'] ?? '',
       location: map['location'] ?? '',
+      profilePicture:map['profilePicture'] ?? null
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source), '');
+  factory UserModel.fromJson(String source) =>
+      UserModel.fromMap(json.decode(source), '');
 }

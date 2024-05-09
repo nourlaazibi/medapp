@@ -1,20 +1,40 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loading_overlay/loading_overlay.dart';
+import 'package:medapp/components/custom_button.dart';
+import 'package:medapp/model/user.dart';
+import 'package:medapp/providers/user_provider.dart';
+import 'package:medapp/services/db/user_db.dart';
+import 'package:medapp/utils/format_date.dart';
+import 'package:provider/provider.dart';
 
 import '../../../components/text_form_field.dart';
 import '../../../utils/constants.dart';
 
 class EditWidget extends StatefulWidget {
+  final UserModel userModel;
+
+  const EditWidget({super.key, required this.userModel});
   @override
   _EditWidgetState createState() => _EditWidgetState();
 }
 
 class _EditWidgetState extends State<EditWidget> {
   final ImagePicker _picker = ImagePicker();
-
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _contactNumberController =
+      TextEditingController();
+  final TextEditingController _heightController = TextEditingController();
+  final TextEditingController _birthController = TextEditingController();
+  final TextEditingController _weightController = TextEditingController();
+  final TextEditingController _bloodController = TextEditingController();
   var _selectedGender = 'male'.tr();
 
   var _selectedBloodGroup = 'O+';
@@ -76,10 +96,17 @@ class _EditWidgetState extends State<EditWidget> {
   void initState() {
     super.initState();
     _initDropDowns();
+    _firstNameController.text = widget.userModel.firstName;
+    _lastNameController.text = widget.userModel.lastName;
+    if (widget.userModel.phone != null) {
+      _contactNumberController.text = widget.userModel.phone!;
+    }
   }
 
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<CurrentUserProvider>(context);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
       child: Form(
@@ -132,6 +159,7 @@ class _EditWidgetState extends State<EditWidget> {
               style: kInputTextStyle,
             ),
             CustomTextFormField(
+              controller: _firstNameController,
               hintText: 'John',
               validator: (value) =>
                   value!.isEmpty ? 'Please insert a valid first name' : null,
@@ -142,6 +170,7 @@ class _EditWidgetState extends State<EditWidget> {
               style: kInputTextStyle,
             ),
             CustomTextFormField(
+              controller: _lastNameController,
               hintText: 'Doe',
               validator: (value) =>
                   value!.isEmpty ? 'Please insert a valid last name' : null,
@@ -153,7 +182,7 @@ class _EditWidgetState extends State<EditWidget> {
             ),
             CustomTextFormField(
               keyboardType: TextInputType.phone,
-              hintText: '0781 34 86 77',
+              hintText: '22012012',
             ),
             SizedBox(height: 15),
             Text(
@@ -161,7 +190,7 @@ class _EditWidgetState extends State<EditWidget> {
               style: kInputTextStyle,
             ),
             CustomTextFormField(
-              hintText: 'bhr.tawfik@gmail.com',
+              hintText: widget.userModel.email,
               enabled: false,
             ),
             SizedBox(height: 15),
@@ -197,7 +226,7 @@ class _EditWidgetState extends State<EditWidget> {
                 ).then((DateTime? value) {
                   if (value != null) {
                     setState(() {
-                      _birthDate = value.toString();
+                      _birthDate = dateTextFormat(value);
                     });
                   }
                 });
@@ -241,6 +270,7 @@ class _EditWidgetState extends State<EditWidget> {
               style: kInputTextStyle,
             ),
             CustomTextFormField(
+              controller: _heightController,
               keyboardType: TextInputType.number,
               hintText: 'in_cm'.tr(),
             ),
@@ -250,9 +280,50 @@ class _EditWidgetState extends State<EditWidget> {
               style: kInputTextStyle,
             ),
             CustomTextFormField(
+              controller: _weightController,
               keyboardType: TextInputType.number,
               hintText: 'in_kg'.tr(),
             ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              child: CustomButton(
+                onPressed: () async {
+                  Fluttertoast.showToast(
+                      msg: " Updating ",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.black,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+
+                  final updatedUser = UserModel(
+                    id: FirebaseAuth.instance.currentUser!.uid,
+                    firstName: _firstNameController.text,
+                    lastName: _lastNameController.text,
+                    email: widget.userModel.email,
+                    gender: _genderItems.indexOf(_selectedGender),
+                    height: double.tryParse(_heightController.text),
+                    weight: double.tryParse(_weightController.text),
+                    birthDate: _birthDate,
+                    bloodGroup: _selectedBloodGroup,
+                    maritalStatus: _selectedMarital,
+                  );
+                  await UserDB().updateUser(updatedUser);
+                  userProvider.setCurrentUser(updatedUser);
+
+                  Fluttertoast.showToast(
+                      msg: "Profile Updated",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.black,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                },
+                text: 'update_info'.tr(),
+              ),
+            )
           ],
         ),
       ),

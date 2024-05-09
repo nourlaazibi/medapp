@@ -29,13 +29,19 @@ class DrawerPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.grey,
-                        backgroundImage: AssetImage(
-                          'assets/images/icon_man.png',
-                        ),
-                      ),
+                      userModel.profilePicture == null
+                          ? CircleAvatar(
+                              radius: 50,
+                              backgroundColor: Colors.grey,
+                              backgroundImage: AssetImage(
+                                'assets/images/icon_man.png',
+                              ))
+                          : CircleAvatar(
+                              radius: 50,
+                              backgroundColor: Colors.grey,
+                              backgroundImage: NetworkImage(
+                                userModel.profilePicture!,
+                              )),
                       SizedBox(
                         height: 10,
                       ),

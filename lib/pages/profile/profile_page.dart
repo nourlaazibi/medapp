@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:medapp/model/user.dart';
+import 'package:medapp/pages/profile/edit_profile_page.dart';
 
 import '../../components/round_icon_button.dart';
 import '../../data/pref_manager.dart';
@@ -11,6 +13,9 @@ import '../test/test_page.dart';
 import '../visit/visit_page.dart';
 
 class ProfilePage extends StatefulWidget {
+  final UserModel userModel;
+
+  const ProfilePage({super.key, required this.userModel});
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -58,13 +63,21 @@ class _ProfilePageState extends State<ProfilePage>
           //color: Colors.white,
           child: Row(
             children: <Widget>[
-              CircleAvatar(
-                radius: 32,
-                backgroundColor: Colors.transparent,
-                backgroundImage: AssetImage(
-                  'assets/images/icon_man.png',
-                ),
-              ),
+              widget.userModel.profilePicture == null
+                  ? CircleAvatar(
+                      radius: 32,
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: AssetImage(
+                        'assets/images/icon_man.png',
+                      ),
+                    )
+                  : CircleAvatar(
+                      radius: 32,
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: NetworkImage(
+                        widget.userModel.profilePicture!,
+                      ),
+                    ),
               SizedBox(
                 width: 20,
               ),
@@ -73,14 +86,14 @@ class _ProfilePageState extends State<ProfilePage>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Tawfiq Bahri',
-                      style: Theme.of(context).textTheme.subtitle2,
+                      '${widget.userModel.firstName} ${widget.userModel.lastName}',
+                      style: Theme.of(context).textTheme.titleSmall,
                     ),
                     SizedBox(
                       height: 3,
                     ),
                     Text(
-                      'bhr.tawfik@gmail.com',
+                      widget.userModel.email,
                       style: TextStyle(
                         color: Colors.grey[350],
                         fontSize: 12,
@@ -90,18 +103,26 @@ class _ProfilePageState extends State<ProfilePage>
                       height: 5,
                     ),
                     Text(
-                      '+213 781 348 677',
+                      widget.userModel.phone != null
+                          ? widget.userModel.phone!
+                          : "",
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle2!
+                          .titleSmall!
                           .copyWith(fontSize: 12),
                     ),
                   ],
                 ),
               ),
               RoundIconButton(
-                onPressed: () =>
-                    Navigator.of(context).pushNamed(Routes.editProfile),
+                onPressed: () => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EditProfilePage(
+                            userModel: widget.userModel,
+                          )),
+                ),
+                // Navigator.of(context).pushNamed(Routes.editProfile),
                 icon: Icons.edit,
                 size: 40,
                 color: kColorBlue,

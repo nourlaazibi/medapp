@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:medapp/wrapper.dart';
 
 class AuthResult {
@@ -41,6 +42,23 @@ class UserAuth {
       _showErrorSnackbar(context, 'Sign up failed: $e');
       return AuthResult(user: null, errorMessage: e.toString());
     }
+  }
+    Future<UserCredential> signInWithGoogle() async {
+   
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Sign in to Firebase with the Google 
+    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
   Future<void> signOut(BuildContext context) async {

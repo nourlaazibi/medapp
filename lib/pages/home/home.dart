@@ -56,7 +56,7 @@ class _HomeState extends State<Home> {
     final size = MediaQuery.of(context).size;
     final _pages = [
       HomePage(currentUser: currentUser.currentUser!),
-      ProfilePage(),
+      ProfilePage(userModel: currentUser.currentUser!,),
       Container(),
       MessagesPage(),
       SettingsPage(),
