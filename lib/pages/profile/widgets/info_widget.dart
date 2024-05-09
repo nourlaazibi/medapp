@@ -1,9 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:medapp/model/user.dart';
 
 import 'profile_info_tile.dart';
 
 class InfoWidget extends StatelessWidget {
+  final UserModel userModel;
+
+  const InfoWidget({super.key, required this.userModel});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,8 +23,8 @@ class InfoWidget extends StatelessWidget {
             ),
           ),
           subtitle: Text(
-            'Tawfiq Bahri',
-            style: Theme.of(context).textTheme.subtitle2,
+            "${userModel.firstName} ${userModel.lastName}",
+            style: Theme.of(context).textTheme.titleSmall,
           ),
           trailing: CircleAvatar(
             radius: 25,
@@ -36,12 +40,12 @@ class InfoWidget extends StatelessWidget {
         ),
         ProfileInfoTile(
           title: 'contact_number'.tr(),
-          trailing: '0781 348 677',
+          trailing: userModel.phone != null ? userModel.phone : "",
           hint: 'Add phone number',
         ),
         ProfileInfoTile(
           title: 'email'.tr(),
-          trailing: 'bhr.tawfik@gmail.com',
+          trailing: userModel.email,
           hint: 'add_email'.tr(),
         ),
         ProfileInfoTile(
@@ -51,12 +55,12 @@ class InfoWidget extends StatelessWidget {
         ),
         ProfileInfoTile(
           title: 'date_of_birth'.tr(),
-          trailing: null,
+          trailing: userModel.birthDate != null ? userModel.birthDate : null,
           hint: 'yyyy mm dd',
         ),
         ProfileInfoTile(
           title: 'blood_group'.tr(),
-          trailing: 'O+',
+          trailing: userModel.bloodGroup != null ? userModel.bloodGroup : null,
           hint: 'add_blood_group'.tr(),
         ),
         ProfileInfoTile(
@@ -66,12 +70,14 @@ class InfoWidget extends StatelessWidget {
         ),
         ProfileInfoTile(
           title: 'height'.tr(),
-          trailing: null,
+          trailing:
+              userModel.height != null ? userModel.height!.toString() : null,
           hint: 'add_height'.tr(),
         ),
         ProfileInfoTile(
           title: 'weight'.tr(),
-          trailing: null,
+          trailing:
+              userModel.weight != null ? userModel.weight!.toString() : null,
           hint: 'add_weight'.tr(),
         ),
         ProfileInfoTile(

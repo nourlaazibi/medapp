@@ -85,8 +85,8 @@ class RouteGenerator {
       case Routes.doctorProfile:
         return CupertinoPageRoute(builder: (_) => DoctorProfilePage());
 
-      case Routes.editProfile:
-        return CupertinoPageRoute(builder: (_) => EditProfilePage());
+      // case Routes.editProfile:
+      //   return CupertinoPageRoute(builder: (_) => EditProfilePage());
 
       case Routes.changeLanguage:
         return CupertinoPageRoute(builder: (_) => ChangeLanguagePage());
