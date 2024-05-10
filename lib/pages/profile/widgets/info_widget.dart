@@ -50,7 +50,7 @@ class InfoWidget extends StatelessWidget {
         ),
         ProfileInfoTile(
           title: 'gender'.tr(),
-          trailing: 'male'.tr(),
+          trailing: userModel.gender == 0 ? 'male'.tr() : 'female'.tr(),
           hint: 'add_gender'.tr(),
         ),
         ProfileInfoTile(
@@ -65,7 +65,8 @@ class InfoWidget extends StatelessWidget {
         ),
         ProfileInfoTile(
           title: 'marital_status'.tr(),
-          trailing: null,
+          trailing:
+              userModel.maritalStatus != null ? userModel.maritalStatus : null,
           hint: 'add_marital_status'.tr(),
         ),
         ProfileInfoTile(
