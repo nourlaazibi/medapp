@@ -59,7 +59,9 @@ class DrawerPage extends StatelessWidget {
                             width: 10,
                           ),
                           Text(
-                            'O+',
+                            userModel.bloodGroup != null
+                                ? userModel.bloodGroup!
+                                : '',
                             style: TextStyle(
                               color: kColorSecondary,
                               fontSize: 16,

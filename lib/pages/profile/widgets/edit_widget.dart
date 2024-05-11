@@ -107,13 +107,16 @@ class _EditWidgetState extends State<EditWidget> {
     if (widget.userModel.height != null) {
       _heightController.text = widget.userModel.height!.toString();
     }
-    if (widget.userModel.birthDate != null) {
+    if (widget.userModel.birthDate != null &&
+        widget.userModel.birthDate!.isNotEmpty) {
       _birthDate = widget.userModel.birthDate!;
     }
-    if (widget.userModel.bloodGroup != null) {
+    if (widget.userModel.bloodGroup != null &&
+        widget.userModel.bloodGroup!.isNotEmpty) {
       _selectedBloodGroup = widget.userModel.bloodGroup!;
     }
-    if (widget.userModel.maritalStatus != null) {
+    if (widget.userModel.maritalStatus != null &&
+        widget.userModel.maritalStatus!.isNotEmpty) {
       _selectedMarital = widget.userModel.maritalStatus!;
     }
     _selectedGender = _genderItems[(widget.userModel.gender)];
@@ -233,9 +236,12 @@ class _EditWidgetState extends State<EditWidget> {
             ),
             ListTile(
               contentPadding: EdgeInsets.all(0),
-              title: Text(widget.userModel.birthDate != null
-                  ? widget.userModel.birthDate!
-                  : _birthDate),
+              title: Text(
+                widget.userModel.birthDate != null
+                    ? widget.userModel.birthDate!
+                    : _birthDate,
+                style: TextStyle(color: Colors.black),
+              ),
               onTap: () {
                 showDatePicker(
                   context: context,
