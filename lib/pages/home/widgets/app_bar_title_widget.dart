@@ -16,7 +16,7 @@ class AppBarTitleWidget extends StatelessWidget {
           TextSpan(
             children: [
               TextSpan(
-                text: 'Med',
+                text: 'NK',
                 style: TextStyle(
                   color: kColorBlue,
                   fontSize: 14,
@@ -24,7 +24,7 @@ class AppBarTitleWidget extends StatelessWidget {
                 ),
               ),
               TextSpan(
-                text: 'APP',
+                text: 'médical',
                 style: TextStyle(
                   color: Colors.grey[400],
                   fontSize: 14,

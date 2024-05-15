@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:medapp/model/booking.dart';
+import 'package:medapp/utils/format_date.dart';
 
 import '../../components/custom_button.dart';
 import '../../components/doctor_item1.dart';
@@ -8,6 +10,15 @@ import '../../model/doctor.dart';
 import '../../utils/constants.dart';
 
 class AppointmentDetailPage extends StatefulWidget {
+  final Doctor doctor;
+  final DateTime dateTime;
+  final Booking booking;
+
+  const AppointmentDetailPage(
+      {super.key,
+      required this.doctor,
+      required this.dateTime,
+      required this.booking});
   @override
   _AppointmentDetailPageState createState() => _AppointmentDetailPageState();
 }
@@ -40,14 +51,14 @@ class _AppointmentDetailPageState extends State<AppointmentDetailPage> {
               height: 10,
             ),
             Text(
-              '${'tomorrow'.tr()}, 8:30 AM',
+              '${DateFormat('EEE dd HH:mm').format(widget.dateTime)}',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
-              '${'in'.tr()} 13 ${'hours'.tr()}',
+              '${'in'.tr()} ${widget.dateTime.difference(DateTime.now()).inHours} ${'hours'.tr()}',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
@@ -85,14 +96,14 @@ class _AppointmentDetailPageState extends State<AppointmentDetailPage> {
               height: 10,
             ),
             Text(
-              'YourHealth Medical Centre',
+              'WorkPlace',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
-              '3719  Jehovah Drive, Roanoke, Virginia - 24011',
+              'Address line 1',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
@@ -188,7 +199,7 @@ class _AppointmentDetailPageState extends State<AppointmentDetailPage> {
                       height: 10,
                     ),
                     Text(
-                      'Tawfiq Bahri',
+                      widget.booking.patient,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -218,7 +229,7 @@ class _AppointmentDetailPageState extends State<AppointmentDetailPage> {
                         height: 10,
                       ),
                       Text(
-                        '9355476',
+                        widget.booking.id,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -261,7 +272,7 @@ class _AppointmentDetailPageState extends State<AppointmentDetailPage> {
                       Container(
                         color: _isdark ? Colors.transparent : Colors.white,
                         child: DoctorItem1(
-                          doctor: doctors[0],
+                          doctor: widget.doctor,
                         ),
                       ),
                       Divider(

@@ -7,6 +7,7 @@ class UserModel {
   String email;
   String? profilePicture;
   int gender;
+  List<String>? visitedDoctors;
   double? height;
   double? weight;
   String? phone;
@@ -17,23 +18,23 @@ class UserModel {
   String? avatar;
   String? location;
 
-  UserModel({
-    required this.id,
-    required this.firstName,
-    required this.lastName,
-    required this.email,
-    required this.gender,
-    this.phone,
-    this.birthDate,
-    this.bloodGroup,
-    this.maritalStatus,
-    this.height,
-    this.weight,
-    this.emeregencyContact,
-    this.avatar,
-    this.location,
-    this.profilePicture
-  });
+  UserModel(
+      {required this.id,
+      required this.firstName,
+      required this.lastName,
+      required this.email,
+      required this.gender,
+ this.visitedDoctors,
+      this.phone,
+      this.birthDate,
+      this.bloodGroup,
+      this.maritalStatus,
+      this.height,
+      this.weight,
+      this.emeregencyContact,
+      this.avatar,
+      this.location,
+      this.profilePicture});
 
   Map<String, dynamic> toMap() {
     return {
@@ -48,10 +49,11 @@ class UserModel {
       'maritalStatus': maritalStatus,
       'height': height,
       'weight': weight,
+      'visitedDoctors':visitedDoctors,
       'emeregencyContact': emeregencyContact,
       'avatar': avatar,
       'location': location,
-      'profilePicture':profilePicture
+      'profilePicture': profilePicture
     };
   }
 
@@ -61,22 +63,22 @@ class UserModel {
     }
 
     return UserModel(
-      id: id,
-      firstName: map['firstName'] ?? '',
-      lastName: map['lastName'] ?? '',
-      email: map['email'] ?? '',
-      gender: map['gender'] ?? 0,
-      phone: map['phone'] ?? '',
-      birthDate: map['birthDate'] ?? '',
-      bloodGroup: map['bloodGroup'] ?? '',
-      maritalStatus: map['maritalStatus'] ?? '',
-      height: map['height']?.toDouble() ?? 0.0,
-      weight: map['weight']?.toDouble() ?? 0.0,
-      emeregencyContact: map['emeregencyContact'] ?? '',
-      avatar: map['avatar'] ?? '',
-      location: map['location'] ?? '',
-      profilePicture:map['profilePicture'] ?? null
-    );
+        id: id,
+        firstName: map['firstName'] ?? '',
+        lastName: map['lastName'] ?? '',
+        email: map['email'] ?? '',
+        gender: map['gender'] ?? 0,
+        phone: map['phone'] ?? '',
+        birthDate: map['birthDate'] ?? '',
+        bloodGroup: map['bloodGroup'] ?? '',
+        maritalStatus: map['maritalStatus'] ?? '',
+        height: map['height']?.toDouble() ?? 0.0,
+        weight: map['weight']?.toDouble() ?? 0.0,
+        emeregencyContact: map['emeregencyContact'] ?? '',
+        avatar: map['avatar'] ?? '',
+        location: map['location'] ?? '',
+        visitedDoctors:map['visitedDoctors'] ?? [],
+        profilePicture: map['profilePicture'] ?? null);
   }
 
   String toJson() => json.encode(toMap());

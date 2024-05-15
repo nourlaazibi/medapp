@@ -46,7 +46,7 @@ class _InputWidgetState extends State<InputWidget> {
               child: Text(
                 'forgot_yout_password'.tr(),
                 style:
-                    Theme.of(context).textTheme.button!.copyWith(fontSize: 12),
+                    Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 12),
               ),
             ),
           ],

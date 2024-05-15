@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import '../utils/constants.dart';
 
 class DaySlotItem extends StatelessWidget {
+  final DateTime dateTime;
   final bool selected;
   final void Function() onTap;
 
   const DaySlotItem({
     Key? key,
     required this.selected,
+    required this.dateTime,
     required this.onTap,
   }) : super(key: key);
   @override
@@ -32,8 +34,8 @@ class DaySlotItem extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Text(
-              '${'today'.tr()}, 24 Dec',
-              style: Theme.of(context).textTheme.subtitle2!.copyWith(
+              '${DateFormat('EEE dd').format(dateTime)}',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
                   color: kColorPrimaryDark, fontWeight: FontWeight.w600),
             ),
             Text(

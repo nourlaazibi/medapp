@@ -31,7 +31,7 @@ class SplashWidget extends StatelessWidget {
                         TextSpan(
                           children: [
                             TextSpan(
-                              text: 'Med',
+                              text: 'NK',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 32,
@@ -39,7 +39,7 @@ class SplashWidget extends StatelessWidget {
                               ),
                             ),
                             TextSpan(
-                              text: 'APP',
+                              text: 'médical',
                               style: TextStyle(
                                 color: Colors.grey[400],
                                 fontSize: 32,

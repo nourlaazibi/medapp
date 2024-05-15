@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'working_day.dart';
 
 class Doctor {
-  String? id;
+  final String id;
   String? name;
   String? firstName;
   String? lastName;
@@ -22,7 +22,7 @@ class Doctor {
   List<WorkingDay>? workingDays;
 
   Doctor({
-    this.id,
+    required this.id,
     this.name,
     this.firstName,
     this.lastName,
@@ -64,7 +64,7 @@ class Doctor {
   }
 
   factory Doctor.fromMap(Map<String, dynamic>? map) {
-    if (map == null) return Doctor();
+    if (map == null) throw ArgumentError("Null doctor data");
 
     return Doctor(
       id: map['id'],
@@ -112,6 +112,7 @@ class Doctors {
 
 final doctors = [
   Doctor(
+    id: "1",
     name: 'Tawfiq Bahri',
     speciality: 'Family Doctor, Cardiologist',
     about:
@@ -121,6 +122,7 @@ final doctors = [
     price: 100,
   ),
   Doctor(
+    id: "2",
     name: 'Trashae Hubbard',
     speciality: 'Family Doctor, Therapist',
     about:
@@ -130,6 +132,7 @@ final doctors = [
     price: 90,
   ),
   Doctor(
+    id: "3",
     name: 'Jesus Moruga',
     speciality: 'Family Doctor, Therapist',
     about:
@@ -139,15 +142,18 @@ final doctors = [
     price: 100,
   ),
   Doctor(
-    name: 'Gabriel Moreira',
+    id: "4",
+    name: 'Manar Abdellaoui',
+    idSpeciality: 12,
     speciality: 'Family Doctor, Therapist',
     about:
         'Candidate of medical sciences, gynecologist, specialist with experience more than 5 years.',
-    avatar: 'assets/images/icon_doctor_4.png',
+    avatar: 'assets/images/icon_doctor_2.png',
     rating: 4.7,
     price: 100,
   ),
   Doctor(
+    id: "5",
     name: 'Liana Lee',
     speciality: 'Family Doctor, Therapist',
     about:

@@ -59,19 +59,24 @@ class RouteGenerator {
         );
 
       case Routes.bookingStep2:
-        return CupertinoPageRoute(builder: (_) => ChooseDoctorPage());
+        //  return CupertinoPageRoute(builder: (_) => ChooseDoctorPage());
+        return CupertinoPageRoute(builder: (_) => Placeholder());
 
       case Routes.bookingStep3:
-        return CupertinoPageRoute(builder: (_) => TimeSlotPage());
+        //return CupertinoPageRoute(builder: (_) => TimeSlotPage(doctor: ,));
+        return CupertinoPageRoute(builder: (_) => Placeholder());
 
       case Routes.bookingStep4:
-        return CupertinoPageRoute(builder: (_) => PatientDetailsPage());
+        //  return CupertinoPageRoute(builder: (_) => PatientDetailsPage());
+        return CupertinoPageRoute(builder: (_) => Placeholder());
 
       case Routes.bookingStep5:
-        return CupertinoPageRoute(builder: (_) => AppointmentBookedPage());
+       // return CupertinoPageRoute(builder: (_) => AppointmentBookedPage());
+        return CupertinoPageRoute(builder: (_) => Placeholder());
 
       case Routes.appointmentDetail:
-        return CupertinoPageRoute(builder: (_) => AppointmentDetailPage());
+       // return CupertinoPageRoute(builder: (_) => AppointmentDetailPage());
+        return CupertinoPageRoute(builder: (_) => Placeholder());
 
       case Routes.visitDetail:
         return CupertinoPageRoute(builder: (_) => VisitDetailPage());
