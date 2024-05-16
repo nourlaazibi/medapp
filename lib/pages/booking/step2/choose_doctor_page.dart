@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:medapp/model/health_category.dart';
+import 'package:medapp/pages/booking/step3/time_slot_page.dart';
 
 import '../../../components/doctor_item.dart';
 import '../../../components/round_icon_button.dart';
@@ -7,9 +9,21 @@ import '../../../model/doctor.dart';
 import '../../../routes/routes.dart';
 import '../../../utils/constants.dart';
 
-class ChooseDoctorPage extends StatelessWidget {
+class ChooseDoctorPage extends StatefulWidget {
+  final HealthCategory healthCategory;
+  ChooseDoctorPage({required this.healthCategory});
+  @override
+  State<ChooseDoctorPage> createState() => _ChooseDoctorPageState();
+}
+
+class _ChooseDoctorPageState extends State<ChooseDoctorPage> {
   @override
   Widget build(BuildContext context) {
+    final doctorList = doctors
+        .where(
+          (element) => element.idSpeciality == widget.healthCategory.id,
+        )
+        .toList();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -34,7 +48,7 @@ class ChooseDoctorPage extends StatelessWidget {
               padding: EdgeInsets.all(20),
               child: Text(
                 'choose_a_doctor'.tr(),
-                style: Theme.of(context).textTheme.headline6!.copyWith(
+                style: Theme.of(context).textTheme.labelLarge!.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
               ),
@@ -75,13 +89,20 @@ class ChooseDoctorPage extends StatelessWidget {
               separatorBuilder: (context, index) => Divider(),
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: doctors.length,
+              itemCount: doctorList.length,
               itemBuilder: (context, index) {
                 return DoctorItem(
                   onTap: () {
-                    Navigator.of(context).pushNamed(Routes.bookingStep3);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TimeSlotPage(
+                                doctor: doctorList[index],
+                                healthCategory: widget.healthCategory,
+                              )),
+                    );
                   },
-                  doctor: doctors[index],
+                  doctor: doctorList[index],
                 );
               },
             ),

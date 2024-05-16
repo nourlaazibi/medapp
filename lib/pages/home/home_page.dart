@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:medapp/model/user.dart';
+import 'package:medapp/pages/home/widgets/visitied_doctor.dart';
 
 import '../../components/visited_doctor_list_item.dart';
 import '../../model/doctor.dart';
@@ -79,22 +80,7 @@ class _HomePageState extends State<HomePage>
                           ],
                         ),
                       ),
-                      Container(
-                        height: 160,
-                        child: ListView.separated(
-                          separatorBuilder: (context, index) => SizedBox(
-                            width: 15,
-                          ),
-                          itemCount: 4,
-                          scrollDirection: Axis.horizontal,
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          itemBuilder: (context, index) {
-                            return VisitedDoctorListItem(
-                              doctor: doctors[index],
-                            );
-                          },
-                        ),
-                      ),
+                      VisitedDoctorList(),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Column(
@@ -133,3 +119,5 @@ class _HomePageState extends State<HomePage>
   @override
   bool get wantKeepAlive => true;
 }
+
+

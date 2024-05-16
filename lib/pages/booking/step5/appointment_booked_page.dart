@@ -1,11 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:medapp/model/booking.dart';
+import 'package:medapp/model/doctor.dart';
+import 'package:medapp/pages/appointment/appointment_detail_page.dart';
 
 import '../../../components/custom_button.dart';
 import '../../../routes/routes.dart';
 import '../../../utils/constants.dart';
 
 class AppointmentBookedPage extends StatelessWidget {
+  final Doctor doctor;
+  final DateTime dateTime;
+  final Booking booking;
+
+  const AppointmentBookedPage({super.key, required this.doctor, required this.dateTime, required this.booking});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +58,14 @@ class AppointmentBookedPage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                 child: CustomButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed(Routes.appointmentDetail);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AppointmentDetailPage(
+                              doctor: doctor,
+                              dateTime: dateTime,
+                              booking: booking)),
+                    );
                   },
                   text: 'done'.tr(),
                 ),

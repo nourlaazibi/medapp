@@ -1,0 +1,86 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:medapp/model/booking.dart';
+import 'package:medapp/model/doctor.dart';
+
+class BookingDB {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference<Map<String, dynamic>> _bookingsRef =
+      FirebaseFirestore.instance.collection('bookings');
+
+  Future<List<Booking>> fetchAllBookings() async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> snapshot =
+          await _firestore.collection('bookings').get();
+      return snapshot.docs.map((doc) => Booking.fromMap(doc.data())).toList();
+    } catch (e) {
+      print('Error fetching bookings: $e');
+      return [];
+    }
+  }
+
+  Future<void> addBooking(Booking booking) async {
+    try {
+      await _firestore
+          .collection('bookings')
+          .doc(booking.id)
+          .set(booking.toMap());
+    } catch (e) {
+      print('Error adding booking: $e');
+    }
+  }
+
+  Future<void> updateBooking(String id, Booking updatedBooking) async {
+    try {
+      await _firestore
+          .collection('bookings')
+          .doc(id)
+          .update(updatedBooking.toMap());
+    } catch (e) {
+      print('Error updating booking: $e');
+    }
+  }
+
+  Future<List<Doctor>> getVisitedDoctors(String userId) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> snapshot =
+          await _bookingsRef.where('userId', isEqualTo: userId).get();
+
+      List<Doctor> visitedDoctors = [];
+      for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
+        Booking booking = Booking.fromMap(doc.data());
+        Doctor doctor =
+            doctors.firstWhere((element) => element.id == booking.doctorId);
+        if (!visitedDoctors.contains(doctor)) {
+          visitedDoctors.add(doctor);
+        }
+      }
+
+      return visitedDoctors;
+    } catch (e) {
+      // Handle any errors
+      print('Error getting visited doctors: $e');
+      return []; // Return an empty list in case of an error
+    }
+  }
+
+  Future<Booking?> fetchMostRecentBooking(String userId) async {
+    try {
+      final QuerySnapshot<Object?> snapshot = await _bookingsRef
+          .where('userId', isEqualTo: userId)
+          .orderBy('date', descending: true)
+          .limit(1)
+          .get();
+      if (snapshot.docs.isNotEmpty) {
+        //print(snapshot.toString());
+        return Booking.fromMap(
+            snapshot.docs.first.data() as Map<String, dynamic>?);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching most recent booking: $e');
+      return null;
+    }
+  }
+}

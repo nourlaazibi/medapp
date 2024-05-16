@@ -19,7 +19,7 @@ class SectionHeaderWidget extends StatelessWidget {
           Expanded(
             child: Text(
               title,
-              style: Theme.of(context).textTheme.headline6!.copyWith(
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
             ),
@@ -32,7 +32,7 @@ class SectionHeaderWidget extends StatelessWidget {
                   onPressed: onPressed,
                   child: Text(
                     'see_all'.tr(),
-                    style: Theme.of(context).textTheme.button!.copyWith(
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
                           fontSize: 12,
                         ),
                   ),

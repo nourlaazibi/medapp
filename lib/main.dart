@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
           child: child!,
         );
       },
-      title: 'MedAPP',
+      title: 'NK médical',
       initialRoute: Routes.splash,
       onGenerateRoute: RouteGenerator.generateRoute,
       localizationsDelegates: [
