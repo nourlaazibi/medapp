@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:medapp/model/booking.dart';
 import 'package:medapp/model/doctor.dart';
+import 'package:medapp/providers/doctors_provider.dart';
+import 'package:provider/provider.dart';
 
 class BookingDB {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -41,7 +44,8 @@ class BookingDB {
     }
   }
 
-  Future<List<Doctor>> getVisitedDoctors(String userId) async {
+  Future<List<Doctor>> getVisitedDoctors(String userId,BuildContext context) async {
+        final doctors = Provider.of<DoctorsProvider>(context).doctors;
     try {
       QuerySnapshot<Map<String, dynamic>> snapshot =
           await _bookingsRef.where('userId', isEqualTo: userId).get();

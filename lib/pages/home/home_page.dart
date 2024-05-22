@@ -1,15 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:medapp/0dev/faker_doctor.dart';
 import 'package:medapp/model/user.dart';
 import 'package:medapp/pages/home/widgets/visitied_doctor.dart';
+import 'package:medapp/services/db/doctor_db.dart';
 
-import '../../components/visited_doctor_list_item.dart';
-import '../../model/doctor.dart';
 import '../../routes/routes.dart';
 import 'widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
-  UserModel currentUser;
+  final UserModel currentUser;
   HomePage({required this.currentUser});
   @override
   _HomePageState createState() => _HomePageState();
@@ -18,6 +18,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin<HomePage> {
   final bool _noAppoints = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //final list = generateRandomDoctors(40);
+    //DoctorDB().addDoctors(list);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,5 +126,3 @@ class _HomePageState extends State<HomePage>
   @override
   bool get wantKeepAlive => true;
 }
-
-

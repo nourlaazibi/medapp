@@ -11,7 +11,7 @@ class VisitedDoctorList extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder<List<Doctor>>(
       future:
-          BookingDB().getVisitedDoctors(FirebaseAuth.instance.currentUser!.uid),
+          BookingDB().getVisitedDoctors(FirebaseAuth.instance.currentUser!.uid,context),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(

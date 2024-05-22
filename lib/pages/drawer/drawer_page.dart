@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:medapp/model/doctor.dart';
 import 'package:medapp/model/user.dart';
+import 'package:medapp/pages/map/main_map.dart';
 
 import '../../routes/routes.dart';
 import '../../utils/constants.dart';
@@ -8,7 +10,12 @@ import '../../utils/constants.dart';
 class DrawerPage extends StatelessWidget {
   final void Function() onTap;
   UserModel userModel;
-  DrawerPage({Key? key, required this.onTap, required this.userModel})
+  final List<Doctor> doctors;
+  DrawerPage(
+      {Key? key,
+      required this.onTap,
+      required this.userModel,
+      required this.doctors})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -91,7 +98,13 @@ class DrawerPage extends StatelessWidget {
                 _drawerItem(
                   image: 'hospital',
                   text: 'hospitals',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MapScreen(doctors: doctors)),
+                    );
+                  },
                 ),
               ],
             ),

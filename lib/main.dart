@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:medapp/model/doctor.dart';
+import 'package:medapp/providers/doctors_provider.dart';
 import 'package:medapp/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +18,20 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+  );
+   AwesomeNotifications().initialize(
+    'resource://drawable/res_app_icon',
+    [
+      NotificationChannel(
+        channelKey: 'basic_channel',
+        channelName: 'Basic notifications',
+        channelDescription: 'Notification channel for basic tests',
+        defaultColor: Color(0xFF9D50DD),
+        ledColor: Colors.white,
+        playSound: true,
+        enableVibration: true,
+      )
+    ],
   );
 
   await EasyLocalization.ensureInitialized();
@@ -41,6 +57,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => CurrentUserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DoctorsProvider(),
         )
       ],
       child: BlocProvider(

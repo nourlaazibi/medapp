@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medapp/model/health_category.dart';
 
 import '../model/doctor.dart';
 
@@ -43,7 +44,7 @@ class VisitedDoctorListItem extends StatelessWidget {
             height: 15,
           ),
           Text(
-            doctor.name!,
+            doctor.fullName,
             style: TextStyle(
               color: Colors.black,
               fontSize: 14,
@@ -53,7 +54,7 @@ class VisitedDoctorListItem extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           Text(
-            doctor.speciality!,
+            getSpecialityData(doctor.idSpeciality).name ??"Unkown" ,
             style: TextStyle(
               color: Colors.grey,
               fontSize: 12,

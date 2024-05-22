@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:medapp/model/health_category.dart';
 import 'package:medapp/pages/booking/step3/time_slot_page.dart';
+import 'package:medapp/providers/doctors_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../components/doctor_item.dart';
 import '../../../components/round_icon_button.dart';
@@ -19,7 +21,8 @@ class ChooseDoctorPage extends StatefulWidget {
 class _ChooseDoctorPageState extends State<ChooseDoctorPage> {
   @override
   Widget build(BuildContext context) {
-    final doctorList = doctors
+    final doctorProvider = Provider.of<DoctorsProvider>(context);
+    final doctorList = doctorProvider.doctors
         .where(
           (element) => element.idSpeciality == widget.healthCategory.id,
         )

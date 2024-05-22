@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medapp/providers/doctors_provider.dart';
 import 'package:medapp/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -53,10 +54,13 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final currentUser = Provider.of<CurrentUserProvider>(context);
+    final doctorsList = Provider.of<DoctorsProvider>(context).doctors;
     final size = MediaQuery.of(context).size;
     final _pages = [
       HomePage(currentUser: currentUser.currentUser!),
-      ProfilePage(userModel: currentUser.currentUser!,),
+      ProfilePage(
+        userModel: currentUser.currentUser!,
+      ),
       Container(),
       MessagesPage(),
       SettingsPage(),
@@ -64,6 +68,7 @@ class _HomeState extends State<Home> {
     return Stack(
       children: <Widget>[
         DrawerPage(
+          doctors: doctorsList,
           onTap: () {
             setState(
               () {
