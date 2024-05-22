@@ -18,23 +18,24 @@ class Doctor {
   double? latitude;
   double? longitude;
 
-  Doctor(
-      {required this.id,
-      required this.fullName,
-      required this.idSpeciality,
-      this.email,
-      this.phone,
-      this.about,
-      this.avatar,
-      this.rating,
-      this.price,
-      this.goodReviews,
-      this.totaScore,
-      this.satisfaction,
-      this.visitDuration,
-      this.workingDays,
-      this.latitude,
-      this.longitude});
+  Doctor({
+    required this.id,
+    required this.fullName,
+    required this.idSpeciality,
+    this.email,
+    this.phone,
+    this.about,
+    this.avatar,
+    this.rating,
+    this.price,
+    this.goodReviews,
+    this.totaScore,
+    this.satisfaction,
+    this.visitDuration,
+    this.workingDays,
+    this.latitude,
+    this.longitude,
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -53,7 +54,7 @@ class Doctor {
       'totaScore': totaScore,
       'satisfaction': satisfaction,
       'visitDuration': visitDuration,
-      'workingDays': workingDays //workingDays?.map((x) => x.toMap()).toList(),
+      'workingDays': workingDays, //workingDays?.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -61,25 +62,23 @@ class Doctor {
     if (map == null) throw ArgumentError("Null doctor data");
 
     return Doctor(
-        id: map['id'],
-        fullName: map['fullName'],
-        email: map['email'],
-        phone: map['phone'],
-        about: map['about'],
-        avatar: map['avatar'],
-        rating: map['rating'],
-        price: map['price'],
-        idSpeciality: map['idSpeciality'],
-        goodReviews: map['goodReviews'],
-        totaScore: map['totaScore'],
-        satisfaction: map['satisfaction'],
-        visitDuration: map['visitDuration'],
-        latitude: map['latitude'],
-        longitude: map['longitude'],
-        workingDays: map['workingDay']
-        // workingDays: List<String>.from(
-        //     map['workingDays']?.map((x) => WorkingDay.fromMap(x))),
-        );
+      id: map['id'],
+      fullName: map['fullName'],
+      email: map['email'],
+      phone: map['phone'],
+      about: map['about'],
+      avatar: map['avatar'],
+      rating: (map['rating'] as num?)?.toDouble(),
+      price: map['price'],
+      idSpeciality: map['idSpeciality'],
+      goodReviews: map['goodReviews'],
+      totaScore: map['totaScore'],
+      satisfaction: map['satisfaction'],
+      visitDuration: map['visitDuration'],
+      latitude: (map['latitude'] as num?)?.toDouble(),
+      longitude: (map['longitude'] as num?)?.toDouble(),
+      workingDays: map['workingDays']?.cast<String>(),
+    );
   }
 
   String toJson() => json.encode(toMap());

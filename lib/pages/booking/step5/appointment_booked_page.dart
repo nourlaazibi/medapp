@@ -5,6 +5,7 @@ import 'package:medapp/model/booking.dart';
 import 'package:medapp/model/doctor.dart';
 import 'package:medapp/pages/appointment/appointment_detail_page.dart';
 import 'package:medapp/services/mailer.dart';
+import 'package:medapp/utils/send_notification.dart';
 
 import '../../../components/custom_button.dart';
 import '../../../routes/routes.dart';
@@ -30,8 +31,9 @@ class _AppointmentBookedPageState extends State<AppointmentBookedPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    sendNotification("done", 'booked with doctor: ${widget.doctor.fullName}');
     sendEmail(FirebaseAuth.instance.currentUser!.email!, "appointment booked",
-        "booked with doctor: ${widget.doctor.fullName}");
+        "doctor: ${widget.doctor.fullName}\n id:${widget.booking.id}");
   }
 
   @override

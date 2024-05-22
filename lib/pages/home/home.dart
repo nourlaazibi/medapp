@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:medapp/providers/doctors_provider.dart';
 import 'package:medapp/providers/user_provider.dart';
 import 'package:provider/provider.dart';
@@ -53,6 +54,10 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+    AndroidFlutterLocalNotificationsPlugin>()?.requestNotificationsPermission();
     final currentUser = Provider.of<CurrentUserProvider>(context);
     final doctorsList = Provider.of<DoctorsProvider>(context).doctors;
     final size = MediaQuery.of(context).size;

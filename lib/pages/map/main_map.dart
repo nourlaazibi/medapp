@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:geolocator/geolocator.dart';
+//import 'package:geolocator/geolocator.dart';
 import 'package:app_settings/app_settings.dart';
 import 'package:medapp/model/doctor.dart';
 
@@ -26,7 +26,7 @@ class _MapScreenState extends State<MapScreen> {
   List<MarkerData> _doctorsmarkers = [];
   List<MarkerData> _Busesmarkers = [];
   bool _isLoading = false;
-  Position? _currentPosition;
+  //Position? _currentPosition;
   double _currentZoom = 13.0;
 
   // Add a state variable to store location properties
@@ -63,31 +63,31 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     super.initState();
-    _requestLocationPermission();
+   // _requestLocationPermission();
     loadDoctors();
   }
 
-  Future<void> _requestLocationPermission() async {
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        // Permissions are denied, cannot proceed.
-        return;
-      }
-    }
+  // Future<void> _requestLocationPermission() async {
+  //   LocationPermission permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission == LocationPermission.denied) {
+  //       // Permissions are denied, cannot proceed.
+  //       return;
+  //     }
+  //   }
 
-    // Check if location services are enabled.
-    bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!isLocationServiceEnabled) {
-      // Location services are not enabled, show an alert dialog or directly open app settings
-      // For a better user experience, you could first show a dialog explaining why you need them to turn on GPS
-      // and then lead them to the settings if they agree.
-      _showLocationServiceDialog();
-    } else {
-      _determinePosition();
-    }
-  }
+  //   // Check if location services are enabled.
+  //   bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
+  //   if (!isLocationServiceEnabled) {
+  //     // Location services are not enabled, show an alert dialog or directly open app settings
+  //     // For a better user experience, you could first show a dialog explaining why you need them to turn on GPS
+  //     // and then lead them to the settings if they agree.
+  //     _showLocationServiceDialog();
+  //   } else {
+  //     _determinePosition();
+  //   }
+  // }
 
   void _showLocationServiceDialog() {
     showDialog(
@@ -117,30 +117,30 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  Future<void> _determinePosition() async {
-    try {
-      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!serviceEnabled) {
-        // Handle the case where services are disabled (suggest enabling, etc.).
-        return;
-      }
+  // Future<void> _determinePosition() async {
+  //   try {
+  //     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  //     if (!serviceEnabled) {
+  //       // Handle the case where services are disabled (suggest enabling, etc.).
+  //       return;
+  //     }
 
-      _currentPosition = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
+  //     _currentPosition = await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.high,
+  //     );
 
-      // Update location properties when position is available
-      if (_currentPosition != null) {
-        setState(() {
-          _latitude = _currentPosition!.latitude.toStringAsFixed(4);
-          _longitude = _currentPosition!.longitude.toStringAsFixed(4);
-          _altitude = _currentPosition!.altitude.toStringAsFixed(2);
-        });
-      }
-    } catch (e) {
-      print(e); // Handle any errors
-    }
-  }
+  //     // Update location properties when position is available
+  //     if (_currentPosition != null) {
+  //       setState(() {
+  //         _latitude = _currentPosition!.latitude.toStringAsFixed(4);
+  //         _longitude = _currentPosition!.longitude.toStringAsFixed(4);
+  //         _altitude = _currentPosition!.altitude.toStringAsFixed(2);
+  //       });
+  //     }
+  //   } catch (e) {
+  //     print(e); // Handle any errors
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +153,7 @@ class _MapScreenState extends State<MapScreen> {
             icon: Icon(Icons.refresh),
             onPressed: () {
               loadDoctors();
-              _determinePosition(); // Refresh the doctors when the button is pressed
+             // _determinePosition(); // Refresh the doctors when the button is pressed
             },
           ),
         ],
@@ -165,11 +165,8 @@ class _MapScreenState extends State<MapScreen> {
           : FlutterMap(
               options: MapOptions(
                 // Use the current position if available, otherwise use a default location
-                center: _currentPosition != null
-                    ? LatLng(
-                        _currentPosition!.latitude, _currentPosition!.longitude)
-                    : LatLng(35.8239, 10.6145),
-                zoom: _currentZoom,
+                initialCenter: LatLng(35.8239, 10.6145),
+                initialZoom: _currentZoom,
               ),
               children: [
                 TileLayer(
@@ -179,14 +176,14 @@ class _MapScreenState extends State<MapScreen> {
                 MarkerLayer(
                   markers: [
                     // Show marker at current position (if available)
-                    if (_currentPosition != null)
-                      Marker(
-                        width: 40.0,
-                        height: 40.0,
-                        point: LatLng(_currentPosition!.latitude,
-                            _currentPosition!.longitude),
-                        child: Icon(Icons.location_pin, color: Colors.red),
-                      ),
+                    // if (_currentPosition != null)
+                    //   Marker(
+                    //     width: 40.0,
+                    //     height: 40.0,
+                    //     point: LatLng(_currentPosition!.latitude,
+                    //         _currentPosition!.longitude),
+                    //     child: Icon(Icons.location_pin, color: Colors.red),
+                    //   ),
                     // Add additional markers with green color for doctors
                     for (final doctorMarker in _doctorsmarkers)
                       Marker(
@@ -253,20 +250,7 @@ class _MapScreenState extends State<MapScreen> {
         child: Icon(Icons.zoom_in),
       ),
       // Display location properties below the map (optional)
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-          height: 50.0,
-          color: const Color(0xFFFFC25C),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text('Latitude: $_latitude'),
-              Text('Longitude: $_longitude'),
-              Text('Altitude: $_altitude m'),
-            ],
-          ),
-        ),
-      ),
+
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:medapp/model/doctor.dart';
 
-
 class DoctorDB {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   CollectionReference doctorsRef =
@@ -20,23 +19,19 @@ class DoctorDB {
       await addDoctor(doctor);
     }
   }
+
   Future<List<Doctor>> getAllDoctors() async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> snapshot =
+          await doctorsRef.get() as QuerySnapshot<Map<String, dynamic>>;
 
-
-  try {
-    QuerySnapshot<Map<String, dynamic>> snapshot =
-        await doctorsRef.get() as QuerySnapshot<Map<String, dynamic>>;
-
-    List<Doctor> doctors =
-        snapshot.docs.map((doc) => Doctor.fromMap(doc.data())).toList();
-
-    return doctors;
-  } catch (e) {
-    print('Error fetching doctors: $e');
-    return [];
+      List<Doctor> doctors =
+          snapshot.docs.map((doc) => Doctor.fromMap(doc.data())).toList();
+      print(doctors);
+      return doctors;
+    } catch (e) {
+      print('Error fetching doctors: $e');
+      return [];
+    }
   }
-
-  
-}
-
 }
