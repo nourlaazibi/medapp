@@ -1,55 +1,50 @@
 import 'dart:convert';
 
-import 'working_day.dart';
-
 class Doctor {
   final String id;
-  String? name;
-  String? firstName;
-  String? lastName;
+  String fullName;
+  int idSpeciality;
   String? email;
   String? phone;
-  String? speciality;
   String? about;
   String? avatar;
   double? rating;
   int? price;
-  int? idSpeciality;
   int? goodReviews;
   int? totaScore;
   int? satisfaction;
   int? visitDuration;
-  List<WorkingDay>? workingDays;
+  List<String>? workingDays;
+  double? latitude;
+  double? longitude;
 
   Doctor({
     required this.id,
-    this.name,
-    this.firstName,
-    this.lastName,
+    required this.fullName,
+    required this.idSpeciality,
     this.email,
     this.phone,
-    this.speciality,
     this.about,
     this.avatar,
     this.rating,
     this.price,
-    this.idSpeciality,
     this.goodReviews,
     this.totaScore,
     this.satisfaction,
     this.visitDuration,
     this.workingDays,
+    this.latitude,
+    this.longitude,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'name': name,
-      'firstName': firstName,
-      'lastName': lastName,
+      'fullName': fullName,
       'email': email,
       'phone': phone,
-      'speciality': speciality,
+      'latitude': latitude,
+      'longitude': longitude,
       'about': about,
       'avatar': avatar,
       'rating': rating,
@@ -59,7 +54,7 @@ class Doctor {
       'totaScore': totaScore,
       'satisfaction': satisfaction,
       'visitDuration': visitDuration,
-      'workingDays': workingDays?.map((x) => x.toMap()).toList(),
+      'workingDays': workingDays, //workingDays?.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -68,23 +63,21 @@ class Doctor {
 
     return Doctor(
       id: map['id'],
-      name: map['name'],
-      firstName: map['firstName'],
-      lastName: map['lastName'],
+      fullName: map['fullName'],
       email: map['email'],
       phone: map['phone'],
-      speciality: map['speciality'],
       about: map['about'],
       avatar: map['avatar'],
-      rating: map['rating'],
+      rating: (map['rating'] as num?)?.toDouble(),
       price: map['price'],
       idSpeciality: map['idSpeciality'],
       goodReviews: map['goodReviews'],
       totaScore: map['totaScore'],
       satisfaction: map['satisfaction'],
       visitDuration: map['visitDuration'],
-      workingDays: List<WorkingDay>.from(
-          map['workingDays']?.map((x) => WorkingDay.fromMap(x))),
+      latitude: (map['latitude'] as num?)?.toDouble(),
+      longitude: (map['longitude'] as num?)?.toDouble(),
+      workingDays: map['workingDays']?.cast<String>(),
     );
   }
 
@@ -109,57 +102,3 @@ class Doctors {
     return doctorList;
   }
 }
-
-final doctors = [
-  Doctor(
-    id: "1",
-    name: 'Tawfiq Bahri',
-    speciality: 'Family Doctor, Cardiologist',
-    about:
-        'Candidate of medical sciences, gynecologist, specialist with experience more than 5 years.',
-    avatar: 'assets/images/icon_doctor_1.png',
-    rating: 4.5,
-    price: 100,
-  ),
-  Doctor(
-    id: "2",
-    name: 'Trashae Hubbard',
-    speciality: 'Family Doctor, Therapist',
-    about:
-        'Candidate of medical sciences, gynecologist, specialist with experience more than 5 years.',
-    avatar: 'assets/images/icon_doctor_2.png',
-    rating: 4.7,
-    price: 90,
-  ),
-  Doctor(
-    id: "3",
-    name: 'Jesus Moruga',
-    speciality: 'Family Doctor, Therapist',
-    about:
-        'Candidate of medical sciences, gynecologist, specialist with experience more than 5 years.',
-    avatar: 'assets/images/icon_doctor_3.png',
-    rating: 4.3,
-    price: 100,
-  ),
-  Doctor(
-    id: "4",
-    name: 'Manar Abdellaoui',
-    idSpeciality: 12,
-    speciality: 'Family Doctor, Therapist',
-    about:
-        'Candidate of medical sciences, gynecologist, specialist with experience more than 5 years.',
-    avatar: 'assets/images/icon_doctor_2.png',
-    rating: 4.7,
-    price: 100,
-  ),
-  Doctor(
-    id: "5",
-    name: 'Liana Lee',
-    speciality: 'Family Doctor, Therapist',
-    about:
-        'Candidate of medical sciences, gynecologist, specialist with experience more than 5 years.',
-    avatar: 'assets/images/icon_doctor_5.png',
-    rating: 4.7,
-    price: 100,
-  ),
-];

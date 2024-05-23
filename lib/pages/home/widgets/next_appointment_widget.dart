@@ -4,9 +4,11 @@ import 'package:medapp/model/booking.dart';
 import 'package:medapp/model/doctor.dart';
 import 'package:medapp/pages/home/widgets/no_appointments_widget.dart';
 import 'package:medapp/pages/shimmer/next_appoinmenet_shimmer.dart';
+import 'package:medapp/providers/doctors_provider.dart';
 import 'package:medapp/services/db/booking_db.dart';
 import 'package:medapp/utils/constants.dart';
 import 'package:medapp/utils/timestamp_to_date.dart';
+import 'package:provider/provider.dart';
 
 import '../../../components/round_icon_button.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -16,6 +18,7 @@ class NextAppointmentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+        final doctorProvider = Provider.of<DoctorsProvider>(context);
     return FutureBuilder<Booking?>(
       future: BookingDB()
           .fetchMostRecentBooking(FirebaseAuth.instance.currentUser!.uid),
@@ -26,7 +29,7 @@ class NextAppointmentWidget extends StatelessWidget {
           return Text('Error: ${snapshot.error}');
         } else if (snapshot.hasData) {
           final booking = snapshot.data!;
-          final doctor = doctors.firstWhere(
+          final doctor = doctorProvider.doctors.firstWhere(
             (element) => element.id == booking.doctorId,
           );
           return Container(
@@ -113,7 +116,7 @@ class NextAppointmentWidget extends StatelessWidget {
                           height: 2,
                         ),
                         Text(
-                          doctor.name ?? "",
+                          doctor.fullName,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 12,

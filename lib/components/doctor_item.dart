@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:medapp/model/health_category.dart';
 
 import '../utils/constants.dart';
 import '../model/doctor.dart';
@@ -40,10 +41,10 @@ class DoctorItem extends StatelessWidget {
                     children: <Widget>[
                       Expanded(
                         child: Text(
-                          doctor.name!,
+                          doctor.fullName,
                           style: Theme.of(context)
                               .textTheme
-                              .subtitle2!
+                              .titleSmall!
                               .copyWith(fontWeight: FontWeight.w700),
                         ),
                       ),
@@ -57,7 +58,7 @@ class DoctorItem extends StatelessWidget {
                       ),
                       Text(
                         '${doctor.rating!}',
-                        style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 12,
                               fontWeight: FontWeight.w300,
                             ),
@@ -68,7 +69,8 @@ class DoctorItem extends StatelessWidget {
                     height: 3,
                   ),
                   Text(
-                    doctor.speciality!,
+                    getSpecialityData(doctor.idSpeciality).name ?? "Unkown",
+                   // doctor.speciality!,
                     style: TextStyle(
                       color: Colors.grey[350],
                       fontSize: 12,

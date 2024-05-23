@@ -1,19 +1,41 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medapp/model/booking.dart';
 import 'package:medapp/model/doctor.dart';
 import 'package:medapp/pages/appointment/appointment_detail_page.dart';
+import 'package:medapp/services/mailer.dart';
+import 'package:medapp/utils/send_notification.dart';
 
 import '../../../components/custom_button.dart';
 import '../../../routes/routes.dart';
 import '../../../utils/constants.dart';
 
-class AppointmentBookedPage extends StatelessWidget {
+class AppointmentBookedPage extends StatefulWidget {
   final Doctor doctor;
   final DateTime dateTime;
   final Booking booking;
 
-  const AppointmentBookedPage({super.key, required this.doctor, required this.dateTime, required this.booking});
+  const AppointmentBookedPage(
+      {super.key,
+      required this.doctor,
+      required this.dateTime,
+      required this.booking});
+
+  @override
+  State<AppointmentBookedPage> createState() => _AppointmentBookedPageState();
+}
+
+class _AppointmentBookedPageState extends State<AppointmentBookedPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    sendNotification("done", 'booked with doctor: ${widget.doctor.fullName}');
+    sendEmail(FirebaseAuth.instance.currentUser!.email!, "appointment booked",
+        "doctor: ${widget.doctor.fullName}\n id:${widget.booking.id}");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,9 +84,9 @@ class AppointmentBookedPage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => AppointmentDetailPage(
-                              doctor: doctor,
-                              dateTime: dateTime,
-                              booking: booking)),
+                              doctor: widget.doctor,
+                              dateTime: widget.dateTime,
+                              booking: widget.booking)),
                     );
                   },
                   text: 'done'.tr(),

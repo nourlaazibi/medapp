@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:medapp/model/health_category.dart';
 
 import '../model/doctor.dart';
 import 'custom_button.dart';
@@ -31,14 +32,14 @@ class MyDoctorListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    doctor.name!,
+                    doctor.fullName,
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2!
+                        .titleSmall!
                         .copyWith(fontWeight: FontWeight.w700),
                   ),
                   Text(
-                    doctor.speciality! + '\n',
+                    getSpecialityData(doctor.idSpeciality).name ??"Unkown" + '\n',
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 12,
