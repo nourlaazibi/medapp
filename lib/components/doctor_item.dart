@@ -57,7 +57,7 @@ class DoctorItem extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        '${doctor.rating!}',
+                        '${doctor.rating!.toStringAsFixed(1)}',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 12,
                               fontWeight: FontWeight.w300,
@@ -70,7 +70,7 @@ class DoctorItem extends StatelessWidget {
                   ),
                   Text(
                     getSpecialityData(doctor.idSpeciality).name ?? "Unkown",
-                   // doctor.speciality!,
+                    // doctor.speciality!,
                     style: TextStyle(
                       color: Colors.grey[350],
                       fontSize: 12,
@@ -81,7 +81,7 @@ class DoctorItem extends StatelessWidget {
                   ),
                   Text(
                     '${'start_from'.tr()} \$${doctor.price}',
-                    style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                         ),

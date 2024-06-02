@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:medapp/model/booking.dart';
@@ -8,8 +9,10 @@ import 'package:medapp/model/user.dart';
 import 'package:medapp/pages/booking/step5/appointment_booked_page.dart';
 import 'package:medapp/providers/user_provider.dart';
 import 'package:medapp/services/db/booking_db.dart';
+import 'package:medapp/services/mailer.dart';
 import 'package:medapp/utils/generate_unique_id.dart';
 import 'package:medapp/utils/random_id.dart';
+import 'package:medapp/utils/send_notification.dart';
 import 'package:provider/provider.dart';
 
 import '../../../components/custom_button.dart';
@@ -363,6 +366,12 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                         email: widget.userModel.email,
                         healthConcern: widget.healthCategory.id);
                     await BookingDB().addBooking(booking);
+                    await sendNotification("done",
+                        'booked with doctor: ${widget.doctor.fullName}');
+                    // await sendEmail(
+                    //     FirebaseAuth.instance.currentUser!.email!,
+                    //     "appointment booked",
+                    //     "doctor: ${widget.doctor.fullName}\n id:$_id");
                     setState(() {
                       loading = !loading;
                     });

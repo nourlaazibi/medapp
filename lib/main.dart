@@ -35,6 +35,7 @@ Future<void> main() async {
 
   await EasyLocalization.ensureInitialized();
   runApp(
+    
     EasyLocalization(
       child: MyApp(),
       supportedLocales: [

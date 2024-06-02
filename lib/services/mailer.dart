@@ -2,13 +2,13 @@ import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
 
 Future<void> sendEmail(String recipient, String subject, String body) async {
-  String username = 'dhifikaram8@gmail.com';
-  String password = 'Karam2021'; 
+  String username = 'imenah58@gmail.com';
+  String password = 'yaev jzvu vdok dyvr';
 
   final smtpServer = gmail(username, password);
 
   final message = Message()
-    ..from = Address(username, 'Your Name')
+    ..from = Address(username, 'MedApp')
     ..recipients.add(recipient)
     ..subject = subject
     ..text = body;

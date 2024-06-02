@@ -44,8 +44,9 @@ class BookingDB {
     }
   }
 
-  Future<List<Doctor>> getVisitedDoctors(String userId,BuildContext context) async {
-        final doctors = Provider.of<DoctorsProvider>(context).doctors;
+  Future<List<Doctor>> getVisitedDoctors(
+      String userId, BuildContext context) async {
+    final doctors = Provider.of<DoctorsProvider>(context).doctors;
     try {
       QuerySnapshot<Map<String, dynamic>> snapshot =
           await _bookingsRef.where('userId', isEqualTo: userId).get();
@@ -62,28 +63,36 @@ class BookingDB {
 
       return visitedDoctors;
     } catch (e) {
-      // Handle any errors
       print('Error getting visited doctors: $e');
-      return []; // Return an empty list in case of an error
+      return [];
     }
   }
 
-  Future<Booking?> fetchMostRecentBooking(String userId) async {
+  Future<Booking?> fetchMostRecentActiveBooking(String userId) async {
     try {
-      final QuerySnapshot<Object?> snapshot = await _bookingsRef
+      final QuerySnapshot<Map<String, dynamic>> snapshot = await _bookingsRef
           .where('userId', isEqualTo: userId)
           .orderBy('date', descending: true)
-          .limit(1)
           .get();
-      if (snapshot.docs.isNotEmpty) {
-        //print(snapshot.toString());
-        return Booking.fromMap(
-            snapshot.docs.first.data() as Map<String, dynamic>?);
-      } else {
+
+      DateTime now = DateTime.now();
+
+      List<Booking> activeBookings = snapshot.docs.map((doc) {
+        return Booking.fromMap(doc.data());
+      }).where((booking) {
+        return booking.date.toDate().isAfter(now) ||
+            booking.date.toDate().isAtSameMomentAs(now);
+      }).toList();
+
+      if (activeBookings.isEmpty) {
         return null;
       }
+
+      activeBookings.sort((a, b) => b.date.toDate().compareTo(a.date.toDate()));
+
+      return activeBookings.first;
     } catch (e) {
-      print('Error fetching most recent booking: $e');
+      print('Error fetching most recent active booking: $e');
       return null;
     }
   }

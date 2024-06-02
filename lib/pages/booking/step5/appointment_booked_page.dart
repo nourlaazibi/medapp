@@ -31,9 +31,7 @@ class _AppointmentBookedPageState extends State<AppointmentBookedPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    sendNotification("done", 'booked with doctor: ${widget.doctor.fullName}');
-    sendEmail(FirebaseAuth.instance.currentUser!.email!, "appointment booked",
-        "doctor: ${widget.doctor.fullName}\n id:${widget.booking.id}");
+
   }
 
   @override
