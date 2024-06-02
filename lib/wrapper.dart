@@ -27,7 +27,7 @@ class _WrapperState extends State<Wrapper> {
 
   Future<void> _checkCurrentUser() async {
     List<Doctor> doctors = await DoctorDB().getAllDoctors();
-    print("doctors $doctors");
+ 
     Provider.of<DoctorsProvider>(context, listen: false).updateList(doctors);
     FirebaseAuth.instance.authStateChanges().listen((User? user) async {
       if (user != null) {

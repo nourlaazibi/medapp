@@ -27,7 +27,7 @@ class DoctorDB {
 
       List<Doctor> doctors =
           snapshot.docs.map((doc) => Doctor.fromMap(doc.data())).toList();
-      print(doctors);
+    
       return doctors;
     } catch (e) {
       print('Error fetching doctors: $e');

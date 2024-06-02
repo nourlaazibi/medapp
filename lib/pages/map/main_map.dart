@@ -27,7 +27,7 @@ class _MapScreenState extends State<MapScreen> {
   List<MarkerData> _Busesmarkers = [];
   bool _isLoading = false;
   //Position? _currentPosition;
-  double _currentZoom = 13.0;
+  double _currentZoom = 10.0;
 
   // Add a state variable to store location properties
   String _latitude = "";
@@ -47,9 +47,9 @@ class _MapScreenState extends State<MapScreen> {
 
       setState(() {
         _doctors = widget
-            .doctors; // Assuming you want to keep a list of doctor objects
-        _doctorsmarkers.clear(); // Clear existing markers
-        _doctorsmarkers.addAll(marks); // Add new markers from doctors
+            .doctors; 
+        _doctorsmarkers.clear(); 
+        _doctorsmarkers.addAll(marks);
         _isLoading = false;
       });
     } catch (error) {

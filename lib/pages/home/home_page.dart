@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage>
                     children: <Widget>[
                       Text(
                         '${'hello'.tr()} ${widget.currentUser.firstName},',
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
                               fontWeight: FontWeight.w400,
                             ),
                       ),
@@ -88,33 +88,33 @@ class _HomePageState extends State<HomePage>
                         ),
                       ),
                       VisitedDoctorList(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            SectionHeaderWidget(
-                              title: 'your_prescriptions'.tr(),
-                              onPressed: () {},
-                            ),
-                            TestAndPrescriptionCardWidget(
-                              title: 'Tuberculosis ${'recipe'.tr()}',
-                              subtitle: '${'given_by'.tr()} Tawfiq Bahri',
-                              image: 'icon_medical_recipe.png',
-                            ),
-                            //test results
-                            SectionHeaderWidget(
-                              title: 'test_results'.tr(),
-                              onPressed: () {},
-                            ),
-                            TestAndPrescriptionCardWidget(
-                              title: 'Monthly Medical Check Up',
-                              subtitle: '1 January 2019',
-                              image: 'icon_medical_check_up.png',
-                            ),
-                          ],
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 20),
+                      //   child: Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.start,
+                      //     children: <Widget>[
+                      //       SectionHeaderWidget(
+                      //         title: 'your_prescriptions'.tr(),
+                      //         onPressed: () {},
+                      //       ),
+                      //       TestAndPrescriptionCardWidget(
+                      //         title: 'Tuberculosis ${'recipe'.tr()}',
+                      //         subtitle: '${'given_by'.tr()} Tawfiq Bahri',
+                      //         image: 'icon_medical_recipe.png',
+                      //       ),
+                      //       //test results
+                      //       SectionHeaderWidget(
+                      //         title: 'test_results'.tr(),
+                      //         onPressed: () {},
+                      //       ),
+                      //       TestAndPrescriptionCardWidget(
+                      //         title: 'Monthly Medical Check Up',
+                      //         subtitle: '1 January 2019',
+                      //         image: 'icon_medical_check_up.png',
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   ),
           ],

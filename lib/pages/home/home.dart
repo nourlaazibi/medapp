@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:medapp/providers/doctors_provider.dart';
 import 'package:medapp/providers/user_provider.dart';
+import 'package:medapp/services/mailer.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/custom_navigation_bar.dart';
@@ -37,6 +39,7 @@ class _HomeState extends State<Home> {
       initialPage: _selectedIndex,
     );
     super.initState();
+    //sendEmail(FirebaseAuth.instance.currentUser!.email!, "subject", "body");
   }
 
   @override
@@ -56,8 +59,10 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
-flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-    AndroidFlutterLocalNotificationsPlugin>()?.requestNotificationsPermission();
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestNotificationsPermission();
     final currentUser = Provider.of<CurrentUserProvider>(context);
     final doctorsList = Provider.of<DoctorsProvider>(context).doctors;
     final size = MediaQuery.of(context).size;

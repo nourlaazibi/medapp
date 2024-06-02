@@ -44,8 +44,9 @@ class BookingDB {
     }
   }
 
-  Future<List<Doctor>> getVisitedDoctors(String userId,BuildContext context) async {
-        final doctors = Provider.of<DoctorsProvider>(context).doctors;
+  Future<List<Doctor>> getVisitedDoctors(
+      String userId, BuildContext context) async {
+    final doctors = Provider.of<DoctorsProvider>(context).doctors;
     try {
       QuerySnapshot<Map<String, dynamic>> snapshot =
           await _bookingsRef.where('userId', isEqualTo: userId).get();
@@ -62,9 +63,8 @@ class BookingDB {
 
       return visitedDoctors;
     } catch (e) {
-      // Handle any errors
       print('Error getting visited doctors: $e');
-      return []; // Return an empty list in case of an error
+      return [];
     }
   }
 
@@ -77,8 +77,12 @@ class BookingDB {
           .get();
       if (snapshot.docs.isNotEmpty) {
         //print(snapshot.toString());
-        return Booking.fromMap(
+        Booking booking = Booking.fromMap(
             snapshot.docs.first.data() as Map<String, dynamic>?);
+        if (booking.date.toDate().isBefore(DateTime.now())) {
+          return booking;
+        }
+        return null;
       } else {
         return null;
       }
