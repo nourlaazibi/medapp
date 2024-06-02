@@ -18,10 +18,10 @@ class NextAppointmentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        final doctorProvider = Provider.of<DoctorsProvider>(context);
+    final doctorProvider = Provider.of<DoctorsProvider>(context);
     return FutureBuilder<Booking?>(
       future: BookingDB()
-          .fetchMostRecentBooking(FirebaseAuth.instance.currentUser!.uid),
+          .fetchMostRecentActiveBooking(FirebaseAuth.instance.currentUser!.uid),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return NextAppoinementShimmer();
