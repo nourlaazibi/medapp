@@ -43,7 +43,7 @@ Future<void> main() async {
         Locale('es', 'ES'),
         Locale('it', 'IT'),
         Locale('pt', 'PT'),
-        Locale('fr', 'FR'),
+        
       ],
       path: 'assets/languages',
     ),
