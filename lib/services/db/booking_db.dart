@@ -80,8 +80,9 @@ class BookingDB {
       List<Booking> activeBookings = snapshot.docs.map((doc) {
         return Booking.fromMap(doc.data());
       }).where((booking) {
-        return booking.date.toDate().isAfter(now) ||
-            booking.date.toDate().isAtSameMomentAs(now);
+        DateTime bookingDateTime = booking.date.toDate();
+        return bookingDateTime.isAfter(now) ||
+            bookingDateTime.isAtSameMomentAs(now);
       }).toList();
 
       if (activeBookings.isEmpty) {
@@ -94,6 +95,20 @@ class BookingDB {
     } catch (e) {
       print('Error fetching most recent active booking: $e');
       return null;
+    }
+  }
+
+  Future<List<Booking>> getUserBookings(String userId) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> snapshot = await _bookingsRef
+          .where('userId', isEqualTo: userId)
+          .orderBy('date', descending: true)
+          .get();
+
+      return snapshot.docs.map((doc) => Booking.fromMap(doc.data())).toList();
+    } catch (e) {
+      print('Error fetching user bookings: $e');
+      return [];
     }
   }
 }

@@ -1,7 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../../components/custom_profile_item.dart';
-import '../../routes/routes.dart';
+import 'package:intl/intl.dart';
+import 'package:medapp/components/custom_profile_item.dart';
+import 'package:medapp/model/doctor.dart';
+import 'package:medapp/model/health_category.dart';
+import 'package:medapp/pages/shimmer/visit_shimmer.dart';
+import 'package:medapp/providers/doctors_provider.dart';
+import 'package:medapp/routes/routes.dart';
+import 'package:medapp/services/db/booking_db.dart';
+import 'package:medapp/model/booking.dart';
+import 'package:provider/provider.dart';
 
 class VisitPage extends StatefulWidget {
   @override
@@ -10,81 +18,68 @@ class VisitPage extends StatefulWidget {
 
 class _VisitPageState extends State<VisitPage>
     with AutomaticKeepAliveClientMixin<VisitPage> {
+  late Future<List<Booking>> _userBookingsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final doctorsList = Provider.of<DoctorsProvider>(context).doctors;
     super.build(context);
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            VisitItem(
-              date: 'FEB 14',
-              time: 'Tue. 17:00',
-              child: CustomProfileItem(
-                onTap: () {
-                  Navigator.of(context).pushNamed(Routes.visitDetail);
-                },
-                title: 'Tawfiq Bahri',
-                subtitle: 'Family Doctor, Cardiologist',
-                buttonTitle: 'See Full Reports',
-                imagePath: 'assets/images/icon_doctor_1.png',
+    return FutureBuilder<List<Booking>>(
+      future:
+          BookingDB().getUserBookings(FirebaseAuth.instance.currentUser!.uid),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return ShimmerVisitItem();
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Text('No bookings found.'));
+        } else {
+          List<Booking> bookings = snapshot.data!;
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: bookings.map((booking) {
+                  Doctor doctor = doctorsList.firstWhere(
+                    (element) => element.id == booking.doctorId,
+                  );
+                  return Column(
+                    children: [
+                      VisitItem(
+                        date:
+                            DateFormat('MMM dd').format(booking.date.toDate()),
+                        time: DateFormat('EEE. HH:mm')
+                            .format(booking.date.toDate()),
+                        child: CustomProfileItem(
+                          onTap: () {
+                            // Navigator.of(context).pushNamed(Routes.visitDetail);
+                          },
+                          title: doctor.fullName,
+                          subtitle: healthCategories
+                                  .firstWhere((element) =>
+                                      element.id == doctor.idSpeciality)
+                                  .name ??
+                              "",
+                          buttonTitle: 'See Full Reports',
+                          imagePath: '${doctor.avatar}',
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                    ],
+                  );
+                }).toList(),
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
-            VisitItem(
-              date: 'JAN 08',
-              time: 'Tue. 17:00',
-              child: CustomProfileItem(
-                onTap: () {},
-                title: 'Josef Bouroumat',
-                subtitle: 'Family Doctor, Cardiologist',
-                buttonTitle: 'See Full Reports',
-                imagePath: 'assets/images/icon_doctor_3.png',
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Divider(
-                    height: 1,
-                    endIndent: 10,
-                    color: Colors.grey[250],
-                  ),
-                ),
-                Text('2018'),
-                Expanded(
-                  child: Divider(
-                    height: 1,
-                    indent: 10,
-                    color: Colors.grey[250],
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            VisitItem(
-              date: 'NOV 24',
-              time: 'Tue. 17:00',
-              child: CustomProfileItem(
-                onTap: () {},
-                title: 'Amine Khlili',
-                subtitle: 'Family Doctor, Cardiologist',
-                buttonTitle: 'See Full Reports',
-                imagePath: 'assets/images/icon_doctor_4.png',
-              ),
-            ),
-          ],
-        ),
-      ),
+          );
+        }
+      },
     );
   }
 
@@ -97,9 +92,13 @@ class VisitItem extends StatelessWidget {
   final String time;
   final Widget child;
 
-  const VisitItem(
-      {Key? key, required this.date, required this.time, required this.child})
-      : super(key: key);
+  const VisitItem({
+    Key? key,
+    required this.date,
+    required this.time,
+    required this.child,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -121,15 +120,11 @@ class VisitItem extends StatelessWidget {
                 fontSize: 12,
                 fontWeight: FontWeight.w300,
               ),
-            )
+            ),
           ],
         ),
-        SizedBox(
-          width: 10,
-        ),
-        Expanded(
-          child: child,
-        ),
+        SizedBox(width: 10),
+        Expanded(child: child),
       ],
     );
   }
