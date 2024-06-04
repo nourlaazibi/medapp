@@ -138,14 +138,11 @@ class _HomeState extends State<Home> {
                             Icons.add,
                           ),
                         )
-                      : Visibility(
-                          visible: false,
-                          child: IconButton(
-                            onPressed: () => Navigator.pushNamed(
-                                context, Routes.notifications),
-                            icon: Icon(
-                              Icons.notifications_none,
-                            ),
+                      : IconButton(
+                          onPressed: () => Navigator.pushNamed(
+                              context, Routes.notifications),
+                          icon: Icon(
+                            Icons.notifications_none,
                           ),
                         ),
                 ],

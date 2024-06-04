@@ -39,6 +39,7 @@ dependencies:
   provider: ^6.1.2
   shared_preferences: ^2.0.15
   shimmer: ^3.0.0
+  timeago: ^3.6.1
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
