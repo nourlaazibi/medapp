@@ -31,9 +31,9 @@ class _ProfilePageState extends State<ProfilePage>
 
   final _kTabPages = [
     VisitPage(),
-    ExaminationPage(),
-    TestPage(),
-    PrescriptionPage(),
+    // ExaminationPage(),
+    // TestPage(),
+    // PrescriptionPage(),
   ];
 
   @override
@@ -45,15 +45,15 @@ class _ProfilePageState extends State<ProfilePage>
       Tab(
         text: 'visit'.tr(),
       ),
-      Tab(
-        text: 'examination'.tr(),
-      ),
-      Tab(
-        text: 'test'.tr(),
-      ),
-      Tab(
-        text: 'prescription'.tr(),
-      ),
+      // Tab(
+      //   text: 'examination'.tr(),
+      // ),
+      // Tab(
+      //   text: 'test'.tr(),
+      // ),
+      // Tab(
+      //   text: 'prescription'.tr(),
+      // ),
     ];
 
     return Column(
@@ -64,13 +64,21 @@ class _ProfilePageState extends State<ProfilePage>
           child: Row(
             children: <Widget>[
               widget.userModel.profilePicture == null
-                  ? CircleAvatar(
-                      radius: 32,
-                      backgroundColor: Colors.transparent,
-                      backgroundImage: AssetImage(
-                        'assets/images/icon_man.png',
-                      ),
-                    )
+                  ? widget.userModel.gender == 0
+                      ? CircleAvatar(
+                          radius: 32,
+                          backgroundColor: Colors.transparent,
+                          backgroundImage: AssetImage(
+                            'assets/images/icon_man.png',
+                          ),
+                        )
+                      : CircleAvatar(
+                          radius: 32,
+                          backgroundColor: Colors.transparent,
+                          backgroundImage: AssetImage(
+                            'assets/images/woman.png',
+                          ),
+                        )
                   : CircleAvatar(
                       radius: 32,
                       backgroundColor: Colors.transparent,

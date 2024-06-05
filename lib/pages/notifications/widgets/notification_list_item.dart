@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-
+import 'package:timeago/timeago.dart' as timeago;
 import '../../../data/pref_manager.dart';
 import '../../../model/notification.dart' as notif;
 
 class NotificationListItem extends StatelessWidget {
-  final notif.Notification notification;
+  final notif.MyNotification notification;
   final void Function() onTap;
 
   const NotificationListItem({
@@ -22,7 +22,7 @@ class NotificationListItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 17),
         child: Row(
           children: <Widget>[
-            Image.asset(notification.icon!),
+            Image.asset(notification.icon),
             SizedBox(
               width: 15,
             ),
@@ -31,7 +31,7 @@ class NotificationListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    notification.title!,
+                    notification.title,
                     style: Theme.of(context)
                         .textTheme
                         .subtitle1!
@@ -41,7 +41,7 @@ class NotificationListItem extends StatelessWidget {
                     height: 4,
                   ),
                   Text(
-                    notification.body! + '\n',
+                    notification.body + '\n',
                     style: Theme.of(context)
                         .textTheme
                         .bodyText2!
@@ -56,7 +56,7 @@ class NotificationListItem extends StatelessWidget {
               width: 10,
             ),
             Text(
-              notification.date!,
+              timeago.format(notification.date),
               style: TextStyle(
                 color: isDark
                     ? Colors.white.withOpacity(0.5)

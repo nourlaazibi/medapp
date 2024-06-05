@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:medapp/model/booking.dart';
 import 'package:medapp/model/health_category.dart';
+import 'package:medapp/model/notification.dart';
+
 import 'package:medapp/model/user.dart';
 import 'package:medapp/pages/booking/step5/appointment_booked_page.dart';
-import 'package:medapp/providers/user_provider.dart';
 import 'package:medapp/services/db/booking_db.dart';
+import 'package:medapp/services/db/notification_db.dart';
 import 'package:medapp/services/mailer.dart';
 import 'package:medapp/utils/generate_unique_id.dart';
 import 'package:medapp/utils/random_id.dart';
@@ -366,8 +368,15 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                         email: widget.userModel.email,
                         healthConcern: widget.healthCategory.id);
                     await BookingDB().addBooking(booking);
+                    await NotificationDB().addNotification(MyNotification(
+                        id: _id.toString(),
+                        title: "Appointment booked",
+                        body:
+                            'Doctor ${widget.doctor.fullName} confirmed your booking appointment',
+                        icon: "assets/images/confirmation.png",
+                        date: DateTime.now()));
                     await sendNotification("done",
-                        'booked with doctor: ${widget.doctor.fullName}');
+                        'you have booked with doctor: ${widget.doctor.fullName}');
                     // await sendEmail(
                     //     FirebaseAuth.instance.currentUser!.email!,
                     //     "appointment booked",

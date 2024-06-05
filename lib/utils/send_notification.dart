@@ -1,12 +1,12 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
-Future<void> sendNotification( String title,String body) async {
+Future<void> sendNotification(String title, String body) async {
   const AndroidNotificationDetails androidPlatformChannelSpecifics =
       AndroidNotificationDetails(
     'cloudsoftware',
     'alerts',
-
     importance: Importance.max,
     priority: Priority.high,
     showWhen: false,
@@ -18,8 +18,8 @@ Future<void> sendNotification( String title,String body) async {
 
   await flutterLocalNotificationsPlugin.show(
     0,
-   title,
-   body,
+    title,
+    body,
     platformChannelSpecifics,
     payload: 'Notification Payload',
   );

@@ -88,6 +88,6 @@ class _NextAppoinementShimmerState extends State<NextAppoinementShimmer> {
                 ],
               ),
             ),
-          );;
+          );
   }
 }

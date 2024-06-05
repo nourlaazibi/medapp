@@ -37,12 +37,19 @@ class DrawerPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       userModel.profilePicture == null
-                          ? CircleAvatar(
-                              radius: 50,
-                              backgroundColor: Colors.grey,
-                              backgroundImage: AssetImage(
-                                'assets/images/icon_man.png',
-                              ))
+                          ? userModel.gender == 0
+                              ? CircleAvatar(
+                                  radius: 50,
+                                  backgroundColor: Colors.grey,
+                                  backgroundImage: AssetImage(
+                                    'assets/images/icon_man.png',
+                                  ))
+                              : CircleAvatar(
+                                  radius: 50,
+                                  backgroundColor: Colors.grey,
+                                  backgroundImage: AssetImage(
+                                    'assets/images/woman.png',
+                                  ))
                           : CircleAvatar(
                               radius: 50,
                               backgroundColor: Colors.grey,
@@ -96,7 +103,7 @@ class DrawerPage extends StatelessWidget {
                 //       Navigator.of(context).pushNamed(Routes.myAppointments),
                 // ),
                 _drawerItem(
-                  image: 'person',
+                  image: 'map',
                   text: 'Map',
                   onTap: () {
                     Navigator.push(
