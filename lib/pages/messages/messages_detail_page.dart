@@ -1,9 +1,15 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:medapp/model/doctor.dart';
+import 'package:medapp/model/user.dart';
 
 import '../../routes/routes.dart';
 import '../../utils/constants.dart';
 
 class MessagesDetailPage extends StatefulWidget {
+  final Doctor doctor;
+  final UserModel userModel;
+  MessagesDetailPage({required this.doctor, required this.userModel});
   @override
   _MessagesDetailPageState createState() => _MessagesDetailPageState();
 }
@@ -11,6 +17,10 @@ class MessagesDetailPage extends StatefulWidget {
 class _MessagesDetailPageState extends State<MessagesDetailPage> {
   @override
   Widget build(BuildContext context) {
+    final DatabaseReference _messagesRef = FirebaseDatabase.instance
+        .ref()
+        .child('messages/${widget.userModel.id}/${widget.doctor.id}');
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -24,7 +34,7 @@ class _MessagesDetailPageState extends State<MessagesDetailPage> {
                     radius: 18,
                     backgroundColor: Colors.transparent,
                     child: Image.asset(
-                      'assets/images/icon_doctor_1.png',
+                      widget.doctor.avatar ?? 'assets/images/icon_doctor_1.png',
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -51,8 +61,8 @@ class _MessagesDetailPageState extends State<MessagesDetailPage> {
               width: 5,
             ),
             Text(
-              'Tawfiq Bahri',
-              style: Theme.of(context).textTheme.subtitle2!.copyWith(
+              widget.doctor.fullName,
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
             ),
@@ -78,44 +88,39 @@ class _MessagesDetailPageState extends State<MessagesDetailPage> {
       body: Column(
         children: <Widget>[
           Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 10,
+            child: StreamBuilder(
+                stream: _messagesRef.orderByChild('timestamp').onValue,
+                builder: (context,  snapshot) {
+
+                  if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  var messagesData =
+                      (snapshot.data! ?? {}) as Map;
+                  var messages = messagesData.entries.toList();
+                  messages.sort((a, b) => int.parse(b.value['timestamp'])
+                      .compareTo(int.parse(a.value['timestamp'])));
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 10,
+                          ),
+                          MessageItem(
+                            send: false,
+                            message: 'Hello',
+                          ),
+                          SizedBox(
+                            height: 10,
+                          )
+                        ],
+                      ),
                     ),
-                    MessageItem(
-                      send: false,
-                      message: 'Hello',
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    MessageItem(
-                      send: true,
-                      message: 'Hello Doctor \nHow are you?',
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    MessageItem(
-                      send: false,
-                      message: 'Fine \nI hope you\'re doing well.',
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    MessageItem(
-                      send: false,
-                      message: 'Don\'t forget about your next appointment.',
-                    ),
-                  ],
-                ),
-              ),
-            ),
+                  );
+                }),
           ),
           SafeArea(
             child: Container(

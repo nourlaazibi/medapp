@@ -84,8 +84,8 @@ class RouteGenerator {
       case Routes.prescriptionDetail:
         return CupertinoPageRoute(builder: (_) => PrescriptionDetailPage());
 
-      case Routes.chatDetail:
-        return CupertinoPageRoute(builder: (_) => MessagesDetailPage());
+      // case Routes.chatDetail:
+      //   return CupertinoPageRoute(builder: (_) => MessagesDetailPage());
 
       case Routes.doctorProfile:
         return CupertinoPageRoute(builder: (_) => DoctorProfilePage());
