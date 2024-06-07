@@ -1,5 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:medapp/model/doctor.dart';
+import 'package:medapp/model/message.dart';
+import 'package:medapp/services/db/booking_db.dart';
+import 'package:medapp/services/message_service.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../../routes/routes.dart';
 import '../../utils/constants.dart';
@@ -14,6 +21,7 @@ class _MessagesPageState extends State<MessagesPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    String uid = FirebaseAuth.instance.currentUser!.uid;
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Column(
@@ -51,34 +59,63 @@ class _MessagesPageState extends State<MessagesPage>
               maxLines: 1,
             ),
           ),
-          MessageListItem(
-            onTap: () {
-              Navigator.of(context).pushNamed(Routes.chatDetail);
+          FutureBuilder(
+            future: Future.wait([
+              BookingDB().getVisitedDoctors(uid, context),
+              MessageService().getRecentMessages(uid, 1)
+            ]),
+            builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else if (!snapshot.hasData || snapshot.data?[0] == null) {
+                return Center(child: Text('No messages found.'));
+              } else {
+                List<Doctor> doctors = [];
+                List<MessageModel> messages = [];
+                if (snapshot.data?[0] != null) {
+                  doctors = snapshot.data?[0];
+                }
+                if (snapshot.data?[1] != null) {
+                  messages = snapshot.data?[1];
+                }
+
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: doctors.length,
+                  itemBuilder: (context, index) {
+                    final doctor = doctors[index];
+                    String _ids = uid + doctor.id;
+                    MessageModel message = messages.firstWhere(
+                      (element) =>
+                          _ids.contains(element.sender) ||
+                          _ids.contains(element.receiver),
+                      orElse: () => MessageModel(
+                          id: "id",
+                          text: "Start Chatting",
+                          sender: doctor.id,
+                          receiver: uid,
+                          seenBy: "00",
+                          timestamp: DateTime.now()),
+                    );
+                    String timeAgo = timeago.format(message.timestamp);
+                    return MessageListItem(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(Routes.chatDetail);
+                      },
+                      imagePath: doctor.avatar!,
+                      name: doctor.fullName,
+                      message: message.text,
+                      date: timeAgo,
+                      unread: 1,
+                      online: false,
+                    );
+                  },
+                );
+              }
             },
-            imagePath: 'assets/images/icon_doctor_1.png',
-            name: 'Tawfiq Bahri',
-            message: 'Your next appointment',
-            date: '11:05 AM',
-            unread: 10,
-            online: false,
-          ),
-          MessageListItem(
-            onTap: () {},
-            imagePath: 'assets/images/icon_doctor_3.png',
-            name: 'Joseph Bouroumat',
-            message: 'Don\'t forget your blood test',
-            date: '08:31 AM',
-            unread: 2,
-            online: true,
-          ),
-          MessageListItem(
-            onTap: () {},
-            imagePath: 'assets/images/icon_doctor_2.png',
-            name: 'Liza Anderson',
-            message: 'You: Good news 😃',
-            date: '03:48 PM',
-            unread: 0,
-            online: false,
           ),
         ],
       ),
