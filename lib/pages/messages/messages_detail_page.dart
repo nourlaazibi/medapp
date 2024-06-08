@@ -74,12 +74,7 @@ class _MessagesDetailPageState extends State<MessagesDetailPage> {
           ],
         ),
         actions: <Widget>[
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.phone,
-            ),
-          ),
+         
           IconButton(
             onPressed: () {
               Navigator.of(context).pushNamed(Routes.doctorProfile);
@@ -143,20 +138,7 @@ class _MessagesDetailPageState extends State<MessagesDetailPage> {
               padding: EdgeInsets.symmetric(vertical: 5),
               child: Row(
                 children: <Widget>[
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.attach_file,
-                      size: 25,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.camera_alt,
-                      size: 25,
-                    ),
-                  ),
+                
                   Expanded(
                     child: TextFormField(
                       controller: _messageController,
