@@ -4,7 +4,7 @@ class MessageModel {
   final String sender;
   final String receiver;
   String seenBy;
-  final DateTime timestamp;
+  final String timestamp;
 
   MessageModel({
     required this.id,
@@ -22,9 +22,7 @@ class MessageModel {
       sender: map['sender'],
       seenBy: map['seenBy'],
       receiver: map['receiver'],
-      timestamp: map['timestamp'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['timestamp'])
-          : DateTime.now(),
+      timestamp: map['timestamp'] 
     );
   }
 
@@ -34,8 +32,8 @@ class MessageModel {
       'text': text,
       'sender': sender,
       'receiver': receiver,
-      'seenBy':seenBy,
-      'timestamp': timestamp.millisecondsSinceEpoch,
+      'seenBy': seenBy,
+      'timestamp': timestamp,
     };
   }
 }

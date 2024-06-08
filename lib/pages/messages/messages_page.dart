@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:medapp/model/doctor.dart';
 import 'package:medapp/model/message.dart';
+import 'package:medapp/pages/messages/messages_detail_page.dart';
+import 'package:medapp/providers/user_provider.dart';
 import 'package:medapp/services/db/booking_db.dart';
 import 'package:medapp/services/message_service.dart';
+import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../routes/routes.dart';
@@ -22,6 +25,7 @@ class _MessagesPageState extends State<MessagesPage>
   Widget build(BuildContext context) {
     super.build(context);
     String uid = FirebaseAuth.instance.currentUser!.uid;
+    final userProvider = Provider.of<CurrentUserProvider>(context).currentUser;
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Column(
@@ -79,6 +83,7 @@ class _MessagesPageState extends State<MessagesPage>
                 }
                 if (snapshot.data?[1] != null) {
                   messages = snapshot.data?[1];
+                  print('no message');
                 }
 
                 return ListView.builder(
@@ -98,12 +103,22 @@ class _MessagesPageState extends State<MessagesPage>
                           sender: doctor.id,
                           receiver: uid,
                           seenBy: "00",
-                          timestamp: DateTime.now()),
+                          timestamp:
+                              DateTime.now().millisecondsSinceEpoch.toString()),
                     );
-                    String timeAgo = timeago.format(message.timestamp);
+                    String timeAgo = timeago.format(
+                        DateTime.fromMillisecondsSinceEpoch(
+                            int.parse(message.timestamp)));
                     return MessageListItem(
                       onTap: () {
-                        Navigator.of(context).pushNamed(Routes.chatDetail);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MessagesDetailPage(
+                                    userModel: userProvider!,
+                                    doctor: doctor,
+                                  )),
+                        );
                       },
                       imagePath: doctor.avatar!,
                       name: doctor.fullName,
