@@ -92,11 +92,11 @@ class _MessagesPageState extends State<MessagesPage>
                   itemCount: doctors.length,
                   itemBuilder: (context, index) {
                     final doctor = doctors[index];
-                    String _ids = uid + doctor.id;
+
                     MessageModel message = messages.firstWhere(
                       (element) =>
-                          _ids.contains(element.sender) ||
-                          _ids.contains(element.receiver),
+                          doctor.id == element.receiver ||
+                          doctor.id == element.sender,
                       orElse: () => MessageModel(
                           id: "id",
                           text: "Start Chatting",
@@ -124,7 +124,7 @@ class _MessagesPageState extends State<MessagesPage>
                       name: doctor.fullName,
                       message: message.text,
                       date: timeAgo,
-                      unread: 1,
+                      unread: 0,
                       online: false,
                     );
                   },

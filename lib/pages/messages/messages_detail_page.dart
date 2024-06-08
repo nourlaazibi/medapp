@@ -123,13 +123,13 @@ class _MessagesDetailPageState extends State<MessagesDetailPage> {
                           MessageItem(
                             send: message['sender'] == widget.userModel.id,
                             message: message['text'],
-                            pfp: widget.doctor.avatar ?? 'assets/images/icon_doctor_1.png',
+                            pfp: widget.doctor.avatar ??
+                                'assets/images/icon_doctor_1.png',
                           ),
                         ],
                       );
                     },
                   );
-            
                 }),
           ),
           SafeArea(
@@ -202,6 +202,7 @@ class _MessagesDetailPageState extends State<MessagesDetailPage> {
                               .toString());
                       await MessageService().sendMessage(messageModel.sender,
                           messageModel.receiver, messageModel);
+                      _messageController.text = "";
                     },
                     icon: Icon(
                       Icons.send,
