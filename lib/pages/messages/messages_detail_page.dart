@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:medapp/model/doctor.dart';
+import 'package:medapp/model/message.dart';
 import 'package:medapp/model/user.dart';
+import 'package:medapp/services/message_service.dart';
+import 'package:medapp/utils/random_id.dart';
 
 import '../../routes/routes.dart';
 import '../../utils/constants.dart';
@@ -15,6 +19,7 @@ class MessagesDetailPage extends StatefulWidget {
 }
 
 class _MessagesDetailPageState extends State<MessagesDetailPage> {
+  final TextEditingController _messageController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final DatabaseReference _messagesRef = FirebaseDatabase.instance
@@ -69,12 +74,7 @@ class _MessagesDetailPageState extends State<MessagesDetailPage> {
           ],
         ),
         actions: <Widget>[
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.phone,
-            ),
-          ),
+         
           IconButton(
             onPressed: () {
               Navigator.of(context).pushNamed(Routes.doctorProfile);
@@ -90,35 +90,40 @@ class _MessagesDetailPageState extends State<MessagesDetailPage> {
           Expanded(
             child: StreamBuilder(
                 stream: _messagesRef.orderByChild('timestamp').onValue,
-                builder: (context,  snapshot) {
-
+                builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
                   if (!snapshot.hasData) {
                     return Center(child: CircularProgressIndicator());
                   }
-                  var messagesData =
-                      (snapshot.data! ?? {}) as Map;
+                  DataSnapshot dataValues = snapshot.data!.snapshot;
+                  if (dataValues.value == null) {
+                    return Center(child: Text('No messages found.'));
+                  }
+                  Map<dynamic, dynamic> messagesData =
+                      dataValues.value as Map<dynamic, dynamic>;
+
                   var messages = messagesData.entries.toList();
                   messages.sort((a, b) => int.parse(b.value['timestamp'])
                       .compareTo(int.parse(a.value['timestamp'])));
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(
-                            height: 10,
-                          ),
+
+                  return ListView.builder(
+                    reverse: true,
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    itemCount: messages.length,
+                    itemBuilder: (context, index) {
+                      var entry = messages[index];
+                      var message = entry.value as Map<dynamic, dynamic>;
+                      return Column(
+                        children: [
+                          SizedBox(height: 10),
                           MessageItem(
-                            send: false,
-                            message: 'Hello',
+                            send: message['sender'] == widget.userModel.id,
+                            message: message['text'],
+                            pfp: widget.doctor.avatar ??
+                                'assets/images/icon_doctor_1.png',
                           ),
-                          SizedBox(
-                            height: 10,
-                          )
                         ],
-                      ),
-                    ),
+                      );
+                    },
                   );
                 }),
           ),
@@ -133,22 +138,10 @@ class _MessagesDetailPageState extends State<MessagesDetailPage> {
               padding: EdgeInsets.symmetric(vertical: 5),
               child: Row(
                 children: <Widget>[
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.attach_file,
-                      size: 25,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.camera_alt,
-                      size: 25,
-                    ),
-                  ),
+                
                   Expanded(
                     child: TextFormField(
+                      controller: _messageController,
                       decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4),
@@ -179,7 +172,20 @@ class _MessagesDetailPageState extends State<MessagesDetailPage> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      MessageModel messageModel = MessageModel(
+                          id: Timestamp.now().millisecondsSinceEpoch.toString(),
+                          text: _messageController.text,
+                          sender: widget.userModel.id,
+                          receiver: widget.doctor.id,
+                          seenBy: "00",
+                          timestamp: Timestamp.now()
+                              .millisecondsSinceEpoch
+                              .toString());
+                      await MessageService().sendMessage(messageModel.sender,
+                          messageModel.receiver, messageModel);
+                      _messageController.text = "";
+                    },
                     icon: Icon(
                       Icons.send,
                       size: 25,
@@ -198,8 +204,10 @@ class _MessagesDetailPageState extends State<MessagesDetailPage> {
 class MessageItem extends StatelessWidget {
   final bool send;
   final String message;
+  final String pfp;
 
-  const MessageItem({Key? key, required this.send, required this.message})
+  const MessageItem(
+      {Key? key, required this.send, required this.message, required this.pfp})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -213,7 +221,7 @@ class MessageItem extends StatelessWidget {
             radius: 18,
             backgroundColor: Colors.transparent,
             child: Image.asset(
-              'assets/images/icon_doctor_1.png',
+              pfp,
               fit: BoxFit.fill,
             ),
           ),
