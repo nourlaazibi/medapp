@@ -72,7 +72,7 @@ class BookingDB {
     try {
       final QuerySnapshot<Map<String, dynamic>> snapshot = await _bookingsRef
           .where('userId', isEqualTo: userId)
-          .orderBy('date', descending: true)
+          .orderBy('date', descending: false)
           .get();
 
       DateTime now = DateTime.now();
@@ -81,16 +81,13 @@ class BookingDB {
         return Booking.fromMap(doc.data());
       }).where((booking) {
         DateTime bookingDateTime = booking.date.toDate();
-        return bookingDateTime.isAfter(now) ||
-            bookingDateTime.isAtSameMomentAs(now);
+        return bookingDateTime.isAfter(now.subtract(Duration(days: 1))) ||
+            bookingDateTime.day == now.day;
       }).toList();
 
       if (activeBookings.isEmpty) {
         return null;
       }
-
-      activeBookings.sort((a, b) => b.date.toDate().compareTo(a.date.toDate()));
-
       return activeBookings.first;
     } catch (e) {
       print('Error fetching most recent active booking: $e');
