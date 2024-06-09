@@ -30,7 +30,7 @@ class Booking {
       'id': id,
       'doctorId': doctorId,
       'userId': userId,
-      'date': date.toDate().toString(),
+      'date': date,
       'patient': patient,
       'mobile': mobile,
       'patientMobile': patientMobile,
