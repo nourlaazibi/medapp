@@ -377,10 +377,8 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                         date: DateTime.now()));
                     await sendNotification("done",
                         'you have booked with doctor: ${widget.doctor.fullName}');
-                    // await sendEmail(
-                    //     FirebaseAuth.instance.currentUser!.email!,
-                    //     "appointment booked",
-                    //     "doctor: ${widget.doctor.fullName}\n id:$_id");
+                    await sendEmail(widget.userModel, widget.doctor.fullName,
+                        DateTime.now());
                     setState(() {
                       loading = !loading;
                     });
