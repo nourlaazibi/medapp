@@ -18,7 +18,7 @@ class Booking {
     required this.doctorId,
     required this.userId,
     required this.date,
-  required  this.patient,
+    required this.patient,
     this.mobile,
     this.patientMobile,
     this.email,

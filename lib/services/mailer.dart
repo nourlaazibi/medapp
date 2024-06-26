@@ -1,25 +1,30 @@
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server/gmail.dart';
+import 'package:emailjs/emailjs.dart';
+import 'package:intl/intl.dart';
+import 'package:medapp/model/user.dart';
 
-Future<void> sendEmail(String recipient, String subject, String body) async {
-  String username = 'imenah58@gmail.com';
-  String password = 'yaev jzvu vdok dyvr';
-
-  final smtpServer = gmail(username, password);
-
-  final message = Message()
-    ..from = Address(username, 'MedApp')
-    ..recipients.add(recipient)
-    ..subject = subject
-    ..text = body;
-
+Future<void> sendEmail(
+    UserModel userModel, String doctor, DateTime dateTime) async {
+  final String serviceId = 'service_g8cwoya';
+  final String templateId = 'template_dl0h12e';
+  final templateParams = {
+    'to_name': userModel.firstName,
+    'receiver': userModel.email,
+    'doctor_name': doctor,
+    'date': DateFormat('dd/MM/yyyy').format(dateTime),
+    'time': DateFormat('HH:mm').format(dateTime)
+  };
   try {
-    final sendReport = await send(message, smtpServer);
-    print('Message sent: ' + sendReport.toString());
-  } on MailerException catch (e) {
-    print('Message not sent.');
-    for (var p in e.problems) {
-      print('Problem: ${p.code}: ${p.msg}');
-    }
+    await EmailJS.send(
+      serviceId,
+      templateId,
+      templateParams,
+      const Options(
+        publicKey: 'ODqFSdO0VTPRC3zlM',
+        privateKey: 'Pu-dGBrRvNj6wPfNPWWiW',
+      ),
+    );
+    print('SUCCESS!');
+  } catch (error) {
+    print(error.toString());
   }
 }
